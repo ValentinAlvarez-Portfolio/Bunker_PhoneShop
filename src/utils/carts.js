@@ -89,3 +89,28 @@ export const create = async (uid) => {
       }
 
 }
+
+export const calculateTotals = (cartItems) => {
+
+      let totalPrice = 0;
+
+      let totalQuantity = 0;
+
+      cartItems.forEach((item) => {
+
+            totalPrice += item.price * item.quantity;
+
+      });
+
+      cartItems.forEach((item) => {
+
+            totalQuantity += item.quantity;
+
+      });
+
+      return {
+            totalPrice,
+            totalQuantity
+      }
+
+}

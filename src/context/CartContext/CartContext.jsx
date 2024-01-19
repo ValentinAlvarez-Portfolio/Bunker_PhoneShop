@@ -1,16 +1,10 @@
 import React, { createContext, useState, useContext } from 'react'
-import { getByUserId, create } from '../../utils/carts.js'
+import { getByUserId, create, calculateTotals } from '../../utils/carts.js'
 import { LoginContext } from '../LoginContext/LoginContext.jsx';
 
 export const CartContext = createContext({
 
       cart: null,
-
-      cartItems: [],
-
-      cartTotal: 0,
-
-      cartQuantity: 0,
 
       isError: false,
 
@@ -38,12 +32,6 @@ export const CartProvider = ({ children }) => {
 
       const [cart, setCart] = useState(null)
 
-      const [cartItems, setCartItems] = useState([])
-
-      const [cartTotal, setCartTotal] = useState(0)
-
-      const [cartQuantity, setCartQuantity] = useState(0)
-
       const [isError, setIsError] = useState(false)
 
       const [isLoading, setIsLoading] = useState(false)
@@ -66,23 +54,31 @@ export const CartProvider = ({ children }) => {
 
                   if (!currentUser.id) throw new Error(notUserMessage)
 
-                  const { cart, message } = await getByUserId(currentUser.id)
+                  const { existingCart, message } = await getByUserId(currentUser.id)
 
-                  if (!cart) throw new Error(message)
+                  if (!existingCart) throw new Error(message)
 
-                  setCart(cart)
+                  const { totalQuantity, totalPrice } = calculateTotals(existingCart.cartItems)
 
-                  setCartItems(cart.items)
+                  setCart({
+                        ...existingCart,
+                        cartTotal: totalPrice,
+                        cartQuantity: totalQuantity
+                  })
 
-                  setCartTotal(cart.total)
+                  setMessage(message)
 
-                  setCartQuantity(cart.quantity)
+
 
             } catch (error) {
 
+                  const toString = error.toString()
+
+                  const errorMessage = toString.slice(7, toString.length)
+
                   setIsError(true)
 
-                  setError(error)
+                  setError(errorMessage)
 
             } finally {
 
@@ -170,9 +166,6 @@ export const CartProvider = ({ children }) => {
 
             <CartContext.Provider value={{
                   cart,
-                  cartItems,
-                  cartTotal,
-                  cartQuantity,
                   isError,
                   isLoading,
                   error,

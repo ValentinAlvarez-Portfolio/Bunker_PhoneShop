@@ -1,12 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, Grid, useTheme, Box, } from '@mui/material';
 import { PhoneAndroidOutlined, HeadphonesOutlined, LocalOfferOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import ItemsNavbar from '../Dropdown/ItemsNavbar/ItemsNavbar.jsx';
-import CartWidget from '../../CartWidget/CartWidget.jsx';
+import CartWidget from './CartWidget/CartWidget.jsx';
+import CartOverlay from './CartOverlay/CartOverlay.jsx';
 import { CartContext } from '../../../context/CartContext/CartContext.jsx';
 
 const NavBar = ({ showDropdown }) => {
+
+
 
       const { cartTotal, cartQuantity } = useContext(CartContext);
 
@@ -66,26 +69,9 @@ const NavBar = ({ showDropdown }) => {
 
                               <Grid item sx={{
                                     textAlign: "end",
-                              }}>
+                              }} >
 
-                                    <Box sx={{
-                                          display: 'flex',
-                                          alignItems: 'center',
-                                          justifyContent: 'center',
-                                    }}>
-                                          <Typography fontFamily={"regular"} style={{
-                                                color: theme.palette.secondary.main,
-                                                fontSize: theme.typography.fontSize.md,
-                                                marginRight: "0.5rem",
-                                                marginTop: "0.25rem",
-                                          }}>
-                                                {cartQuantity ? cartQuantity : "0"} item(s) - ${cartTotal ? cartTotal : "0"}
-
-                                          </Typography>
-
-                                          <CartWidget />
-
-                                    </Box>
+                                    <CartWidget />
 
                               </Grid>
 
