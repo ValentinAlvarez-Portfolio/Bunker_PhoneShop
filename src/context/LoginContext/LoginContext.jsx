@@ -1,12 +1,11 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useContext } from 'react'
 import { registerUser, loginUser, getUserByEmail, getUserById, updateUser } from '../../utils/users.js'
+import { getByUserId } from '../../utils/carts.js'
 
 
 export const LoginContext = createContext({
 
       currentUser: null,
-
-      isAuthenticated: false,
 
       isError: false,
 
@@ -15,6 +14,10 @@ export const LoginContext = createContext({
       error: null,
 
       message: null,
+
+      isAuthenticated: false,
+
+      needCart: false,
 
       login: () => { },
 
@@ -28,7 +31,7 @@ export const LoginContext = createContext({
 
 export const LoginProvider = ({ children }) => {
 
-      const [currentUser, setCurrentUser] = useState(null)
+      const [currentUser, setCurrentUser] = useState({})
 
       const [isError, setIsError] = useState(false)
 
@@ -40,6 +43,10 @@ export const LoginProvider = ({ children }) => {
 
       const [isAuthenticated, setAuthenticated] = useState(false)
 
+      const [createCart, setCreateCart] = useState(false)
+
+      const notSamePasswordMessage = "Las contraseñas no coinciden"
+
       const login = async (user) => {
 
             setIsLoading(true)
@@ -48,25 +55,27 @@ export const LoginProvider = ({ children }) => {
 
             try {
 
-                  const { userPayload } = await getUserByEmail(user)
+                  const { userPayload, message } = await getUserByEmail(user)
 
-                  console.log(userPayload)
+                  if (!userPayload.id) throw new Error(message);
 
-                  if (!userPayload.id) throw new Error("El email ingresado, no existe");
+                  const response = await loginUser(user)
 
-                  const { userLogged, message } = await loginUser(user)
+                  if (!response.userLogged) throw new Error("La contraseña ingresada, es incorrecta");
 
-                  if (!userLogged) throw new Error("La contraseña ingresada, es incorrecta");
+                  const { existingCart, message: cartMessage } = await getByUserId(userPayload.id)
 
-                  console.log(userPayload, userLogged, message)
+                  setCreateCart(existingCart.id ? false : true)
 
-                  setMessage(message)
+                  setMessage(response.message)
 
-                  setCurrentUser({
-                        ...userPayload,
-                  });
+                  setCurrentUser(userPayload);
 
-                  setAuthenticated(true)
+                  setTimeout(() => {
+
+                        setAuthenticated(true)
+
+                  }, 2000);
 
 
             } catch (error) {
@@ -102,7 +111,7 @@ export const LoginProvider = ({ children }) => {
 
             try {
 
-                  if (userData.password !== userData.confirm_password) throw new Error("Las contraseñas no coinciden")
+                  if (userData.password !== userData.confirm_password) throw new Error(notSamePasswordMessage)
 
                   const { userPayload, message } = await registerUser(userData)
 
@@ -192,11 +201,12 @@ export const LoginProvider = ({ children }) => {
 
             <LoginContext.Provider value={{
                   currentUser,
-                  isAuthenticated: isAuthenticated,
                   isError,
                   isLoading,
                   error,
                   message,
+                  isAuthenticated,
+                  needCart: createCart,
                   login,
                   register,
                   logout,

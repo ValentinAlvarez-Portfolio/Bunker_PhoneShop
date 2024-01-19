@@ -4,11 +4,11 @@ import { PhoneAndroidOutlined, HeadphonesOutlined, LocalOfferOutlined } from '@m
 import { Link } from 'react-router-dom';
 import ItemsNavbar from '../Dropdown/ItemsNavbar/ItemsNavbar.jsx';
 import CartWidget from '../../CartWidget/CartWidget.jsx';
-import CartContext from '../../../context/CartContext/CartContext.jsx';
+import { CartContext } from '../../../context/CartContext/CartContext.jsx';
 
 const NavBar = ({ showDropdown }) => {
 
-      const { totalQuantity, totalPrice } = useContext(CartContext);
+      const { cartTotal, cartQuantity } = useContext(CartContext);
 
       const theme = useTheme();
 
@@ -79,7 +79,7 @@ const NavBar = ({ showDropdown }) => {
                                                 marginRight: "0.5rem",
                                                 marginTop: "0.25rem",
                                           }}>
-                                                {totalQuantity} item(s) - ${totalPrice}
+                                                {cartQuantity ? cartQuantity : "0"} item(s) - ${cartTotal ? cartTotal : "0"}
 
                                           </Typography>
 

@@ -39,8 +39,9 @@ export const getUserByEmail = async (user) => {
 
                   }
 
-
             });
+
+            const message = userToGet.id ? `Usuario ${userToGet.email} encontrado correctamente` : 'Usuario no encontrado';
 
             return {
                   userPayload: {
@@ -49,7 +50,8 @@ export const getUserByEmail = async (user) => {
                         confirm_password: undefined,
                         date_created: undefined,
                         date_updated: undefined
-                  }
+                  },
+                  message
             }
 
       } catch (error) {
@@ -85,6 +87,8 @@ export const getUserById = async (uid) => {
 
             });
 
+            const message = userPayload.id ? `Usuario ${userPayload.email} encontrado correctamente` : 'Usuario no encontrado';
+
             return {
                   userPayload
             }
@@ -99,6 +103,7 @@ export const getUserById = async (uid) => {
 
 }
 
+// Modificar respuestas
 export const registerUser = async (user) => {
 
       const auth = getAuth();
@@ -152,7 +157,7 @@ export const loginUser = async (user) => {
 
             const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password);
 
-            const message = `Usuario ${user.email} logueado correctamente`;
+            const message = !userCredential ? 'Las credenciales son incorrectas' : `Usuario ${user.email} logueado correctamente`;
 
             return {
                   userLogged: {

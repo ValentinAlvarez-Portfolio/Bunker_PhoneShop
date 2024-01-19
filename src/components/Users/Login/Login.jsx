@@ -1,21 +1,52 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { LoginContext } from '../../../context/LoginContext/LoginContext.jsx'
+import { CartContext } from '../../../context/CartContext/CartContext.jsx'
 
 const Login = () => {
 
+      const hasRun = useRef(false);
+
       const {
             login,
-            message,
-            error,
-            isLoading,
-            isError,
+            message: loginMessage,
+            error: loginError,
+            isLoading: loginIsLoading,
+            isError: loginIsError,
             currentUser,
       } = useContext(LoginContext)
+
+      const {
+            createCart,
+            message: cartMessage,
+            error: cartError,
+            setMessage: setCartMessage,
+            setError: setCartError,
+      } = useContext(CartContext)
 
       const [user, setUser] = useState({
             email: "",
             password: "",
       })
+
+      useEffect(() => {
+
+            if (!hasRun.current && currentUser && currentUser.id) {
+
+                  const result = createCart()
+
+                  hasRun.current = true;
+
+            }
+
+            cartError && alert(cartError)
+
+            cartMessage && alert(cartMessage)
+
+            cartError && setCartError(null)
+
+            cartMessage && setCartMessage(null)
+
+      }, [currentUser && (cartError || cartMessage)]);
 
       const handleForm = (e) => {
 
@@ -23,11 +54,9 @@ const Login = () => {
 
             login(user)
 
-            message && console.log(message)
+            loginMessage && console.log(loginMessage)
 
-            error && console.log(error)
-
-            console.log(currentUser)
+            loginError && console.log(loginError)
 
       }
 
@@ -57,13 +86,13 @@ const Login = () => {
                         <button type="submit">Login</button>
                   </form>
 
-                  {isLoading && <p>Loading...</p>}
+                  {loginIsLoading && <p>Loading...</p>}
 
-                  {isError && <p>{error}</p>}
+                  {loginIsError && <p>{loginError}</p>}
 
                   {currentUser && <p>{currentUser.email}</p>}
 
-                  {message && <p>{message}</p>}
+                  {loginMessage && <p>{loginMessage}</p>}
             </>
       )
 }

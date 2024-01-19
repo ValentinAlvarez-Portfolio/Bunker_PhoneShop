@@ -1,93 +1,194 @@
-import React from 'react'
-import { useState, createContext } from 'react'
+import React, { createContext, useState, useContext } from 'react'
+import { getByUserId, create } from '../../utils/carts.js'
+import { LoginContext } from '../LoginContext/LoginContext.jsx';
 
 export const CartContext = createContext({
-      cart: [],
-      totalPrice: 0,
-      totalQuantity: 0
+
+      cart: null,
+
+      cartItems: [],
+
+      cartTotal: 0,
+
+      cartQuantity: 0,
+
+      isError: false,
+
+      isLoading: false,
+
+      error: null,
+
+      message: null,
+
+      setMessage: () => { },
+
+      setError: () => { },
+
+      getCartByUserId: () => { },
+
+      createCart: () => { },
+
+      addItem: () => { }
+
 })
 
 export const CartProvider = ({ children }) => {
 
-      const [cart, setCart] = useState([])
-      const [totalPrice, setTotalPrice] = useState(0)
-      const [totalQuantity, setTotalQuantity] = useState(0)
+      const { currentUser, isAuthenticated, needCart } = useContext(LoginContext)
 
+      const [cart, setCart] = useState(null)
 
-      const addProduct = (product, quantity) => {
+      const [cartItems, setCartItems] = useState([])
 
-            const existingItem = cart.find(i => i.product._id === product._id)
+      const [cartTotal, setCartTotal] = useState(0)
 
-            if (!existingItem) {
+      const [cartQuantity, setCartQuantity] = useState(0)
 
+      const [isError, setIsError] = useState(false)
 
-                  setCart(prev => [...prev, { product, quantity, totalProductPrice: product.price * quantity }])
-                  setTotalPrice(prev => prev + (product.price * quantity)
-                  )
-                  setTotalQuantity(prev => prev + quantity)
+      const [isLoading, setIsLoading] = useState(false)
 
+      const [error, setError] = useState(null)
 
-                  alert(`Se agregó ${quantity} ${product.title} al carrito`)
+      const [message, setMessage] = useState(null)
 
+      const notUserMessage = "Debe estar logueado para ver el carrito"
 
-            } else {
+      const notItemMessage = "Debe seleccionar un producto"
 
-                  const newCart = cart.map(i => {
-                        if (i.product._id === product._id) {
+      const getCartByUserId = async () => {
 
-                              setTotalPrice(prev => prev + (product.price * quantity))
-                              setTotalQuantity(prev => prev + quantity)
+            setIsLoading(true)
 
-                              return { ...i, quantity: i.quantity + quantity, totalProductPrice: i.totalProductPrice + (product.price * quantity) }
+            setIsError(false)
 
-                        } else {
-                              return i
-                        };
-                  })
+            try {
 
-                  setCart(newCart)
+                  if (!currentUser.id) throw new Error(notUserMessage)
+
+                  const { cart, message } = await getByUserId(currentUser.id)
+
+                  if (!cart) throw new Error(message)
+
+                  setCart(cart)
+
+                  setCartItems(cart.items)
+
+                  setCartTotal(cart.total)
+
+                  setCartQuantity(cart.quantity)
+
+            } catch (error) {
+
+                  setIsError(true)
+
+                  setError(error)
+
+            } finally {
+
+                  setIsLoading(false)
 
             }
 
+      }
+
+      const createCart = async () => {
+
+            setIsLoading(true)
+
+            setIsError(false)
+
+            setMessage(null)
+
+            setError(null)
+
+            try {
+
+                  if (!currentUser.id) throw new Error(notUserMessage)
+
+                  if (!needCart) throw new Error("Ya tiene un carrito")
+
+                  const response = await create(currentUser.id)
+
+                  if (!response.cartPayload) throw new Error(message)
+
+                  setCart(response.cartPayload)
+
+                  setMessage(response.message)
+
+            } catch (error) {
+
+                  const toString = error.toString()
+
+                  const errorMessage = toString.slice(7, toString.length)
+
+                  setIsError(true)
+
+                  setError(errorMessage)
+
+            } finally {
+
+                  setIsLoading(false)
+
+            }
 
       }
 
-      const removeItem = (productId) => {
+      const addItem = async (item, quantity, uid) => {
 
-            const deletedProduct = cart.find(i => i.product._id === productId)
-            const newCart = cart.filter(i => i.product._id !== productId)
+            setIsLoading(true)
 
-            setCart(newCart)
-            setTotalPrice(prev => prev - (deletedProduct.product.price * deletedProduct.quantity))
-            setTotalQuantity(prev => prev - deletedProduct.quantity)
+            setIsError(false)
 
+            try {
+
+                  if (!uid) throw new Error(notUserMessage)
+
+                  if (!item) throw new Error(notItemMessage)
+
+                  const { cart } = await getByUserId(uid)
+
+                  if (!cart) throw new Error("No se encontró el carrito, intente loguearse nuevamente")
+
+
+            } catch (error) {
+
+                  setIsError(true)
+
+                  setError(error)
+
+            } finally {
+
+                  setIsLoading(false)
+
+            }
 
       }
 
-      const clearCart = () => {
-
-            setCart([])
-            setTotalPrice(0)
-            setTotalQuantity(0)
-
-      }
 
       return (
-            <>
-                  <CartContext.Provider value={{
-                        cart,
-                        totalPrice,
-                        totalQuantity,
-                        addProduct,
-                        removeItem,
-                        clearCart
-                  }}>
 
-                        {children}
+            <CartContext.Provider value={{
+                  cart,
+                  cartItems,
+                  cartTotal,
+                  cartQuantity,
+                  isError,
+                  isLoading,
+                  error,
+                  message,
+                  setMessage,
+                  setError,
+                  getCartByUserId,
+                  createCart,
+                  addItem
+            }}>
 
-                  </CartContext.Provider>
-            </>
+                  {children}
+
+            </CartContext.Provider>
+
       )
-}
 
-export default CartContext
+
+};

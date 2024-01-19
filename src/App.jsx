@@ -12,6 +12,7 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
+
         <LoginProvider>
           <CartProvider>
             <HashRouter>
@@ -21,6 +22,7 @@ function App() {
             </HashRouter>
           </CartProvider>
         </LoginProvider>
+
       </ThemeProvider>
     </>
   )

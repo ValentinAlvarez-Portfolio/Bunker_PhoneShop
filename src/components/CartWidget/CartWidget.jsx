@@ -2,17 +2,16 @@ import React, { useContext, useState, useEffect } from 'react'
 import { IconButton, Badge } from '@mui/material'
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import { useTheme } from '@mui/material/styles';
-import CartContext from '../../context/CartContext/CartContext.jsx';
 
 const CartWidget = () => {
-
-      const { totalQuantity } = useContext(CartContext);
+      /* 
+            const { totalQuantity } = useContext(CartContext); */
 
       const [cartQuantity, setCartQuantity] = useState(0);
 
-      useEffect(() => {
+      /* useEffect(() => {
             setCartQuantity(totalQuantity)
-      }, [totalQuantity])
+      }, [totalQuantity]) */
 
       const theme = useTheme();
 
