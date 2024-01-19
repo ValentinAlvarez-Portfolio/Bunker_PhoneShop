@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "Regular";
+  src: url(../../assets/fonts/Montserrat-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: "SemiBold";
+  src: url(../../assets/fonts/Montserrat-SemiBold.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Bold";
+  src: url(../../assets/fonts/Montserrat-Bold.ttf) format("truetype");
+}
+body {
+  margin: 0;
+}
+
+.flipper-image-container {
+  position: relative;
+}
+
+.flipper-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.flipper-image-secondary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.flipper-image-container:hover .flipper-image {
+  opacity: 0;
+}
+
+.flipper-image-container:hover .flipper-image-secondary {
+  opacity: 1;
+}
+
+/*# sourceMappingURL=styles.css.map */
