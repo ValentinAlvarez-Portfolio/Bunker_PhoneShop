@@ -1,15 +1,13 @@
 import React, { useContext } from 'react'
 import Dropdown from '../Dropdown.jsx'
-import { MenuItem, Typography, useTheme } from '@mui/material'
+import { Box, MenuItem, Typography, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { LoginContext } from '../../../../context/LoginContext/LoginContext.jsx'
-
-import PersonIcon from '@mui/icons-material/Person';
 
 
 const ItemsMenu = (props) => {
 
-      const { logout } = useContext(LoginContext)
+      const { logout, isAuthenticated } = useContext(LoginContext)
 
       const theme = useTheme();
 
@@ -51,15 +49,29 @@ const ItemsMenu = (props) => {
 
             return (
                   <Dropdown type={"menuUsers"}>
+                        {isAuthenticated ? (
+                              <Box>
+                                    <Link sx={{
+                                          textDecoration: "none",
+                                    }} to={'/profile'}>
+                                          <MenuItem key="profile" sx={styledMenuItems} > Profile </MenuItem>
+                                    </Link>
+                                    <Link sx={{
+                                          textDecoration: "none"
+                                    }} onClick={logout} ><MenuItem key="logout" sx={styledMenuItems} > Logout </MenuItem></Link>
+                              </Box>
+                        ) : (
+                              <Box>
+                                    <Link sx={{
+                                          textDecoration: "none",
+                                    }} to={'/login'}>
+                                          <MenuItem key="login" sx={styledMenuItems} > Login </MenuItem>
+                                    </Link>
+                              </Box>
+                        )}
 
-                        <Link sx={{
-                              textDecoration: "none",
-                        }} to={'/profile'}>
-                              <MenuItem key="profile" sx={styledMenuItems} > Profile </MenuItem>
-                        </Link>
-                        <Link sx={{
-                              textDecoration: "none"
-                        }} onClick={logout} ><MenuItem key="logout" sx={styledMenuItems} > Logout </MenuItem></Link>
+
+
                   </Dropdown>
 
             )

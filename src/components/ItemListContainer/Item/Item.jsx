@@ -1,14 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Grid, Button, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import FlipperImg from "../../FlipperImg/FlipperImg";
 import { CartContext } from "../../../context/CartContext/CartContext.jsx";
+import { LoginContext } from "../../../context/LoginContext/LoginContext.jsx";
 
 const Item = ({ product }) => {
 
+    const { addItem } = useContext(CartContext);
+
+    const { isAuthenticated } = useContext(LoginContext);
 
     const handleAddToCart = () => {
 
+        if (!isAuthenticated) {
+
+            alert('Debes iniciar sesión para agregar productos al carrito');
+
+            return;
+
+        }
+
+        addItem(product, 1);
 
     }
 
@@ -70,10 +83,12 @@ const Item = ({ product }) => {
 
     return (
 
+
+
         <Grid item key={product._id} sx={styledItem.styledGridItem}  >
 
 
-            <Link to={`/PFAlvarez-React/${product.category}/${product._id}`}
+            <Link to={`/${product.category}/${product._id}`}
                 style={{
                     textDecoration: "none",
                 }}
@@ -97,7 +112,7 @@ const Item = ({ product }) => {
             <Button
                 variant="contained"
                 sx={styledItem.styledButton}
-            /* onClick={handleAddToCart} */
+                onClick={handleAddToCart}
             >
                 Agregar al carrito
             </Button>

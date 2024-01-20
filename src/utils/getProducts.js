@@ -9,8 +9,6 @@ export const getProducts = async (sId) => {
 
       if (productsResponse.status === 'success') {
 
-            console.log(productsResponse)
-
             const productsData = productsResponse.payload.products;
 
 

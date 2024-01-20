@@ -27,6 +27,10 @@ export const LoginContext = createContext({
 
       update: () => { },
 
+      setMessage: () => { },
+
+      setError: () => { },
+
 })
 
 export const LoginProvider = ({ children }) => {
@@ -190,9 +194,13 @@ export const LoginProvider = ({ children }) => {
 
       const logout = () => {
 
-            setAuthenticated(false);
-
             setCurrentUser(null)
+
+            setTimeout(() => {
+
+                  setAuthenticated(false)
+
+            }, 2000);
 
       }
 
@@ -211,6 +219,8 @@ export const LoginProvider = ({ children }) => {
                   register,
                   logout,
                   update,
+                  setMessage,
+                  setError,
             }}>
 
                   {children}

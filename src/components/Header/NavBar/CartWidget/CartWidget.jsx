@@ -3,6 +3,7 @@ import { IconButton, Badge, Box, Typography } from '@mui/material'
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import { useTheme } from '@mui/material/styles';
 import { CartContext } from '../../../../context/CartContext/CartContext.jsx';
+import { LoginContext } from '../../../../context/LoginContext/LoginContext.jsx';
 import CartOverlay from '../CartOverlay/CartOverlay.jsx';
 
 const CartWidget = () => {
@@ -35,13 +36,30 @@ const CartWidget = () => {
             setIsVisible(false);
       };
 
-      const { cart } = useContext(CartContext);
+      const { cart, setCart } = useContext(CartContext);
+
+      const { isAuthenticated } = useContext(LoginContext);
 
       const [totalQuantity, setTotalQuantity] = useState(0);
 
+      const [totalPrice, setTotalPrice] = useState(0);
+
       useEffect(() => {
+
             setTotalQuantity(cart ? cart.cartQuantity : 0)
-      }, [cart])
+
+            setTotalPrice(cart ? cart.cartTotal : 0)
+
+      }, [cart && (cart.cartTotal || cart.cartQuantity)])
+
+      useEffect(() => {
+
+            if (!isAuthenticated) {
+                  setCart(null);
+            }
+
+
+      }, [isAuthenticated])
 
       const theme = useTheme();
 
@@ -92,7 +110,7 @@ const CartWidget = () => {
                   }}
                         onClick={handleMouseEnter}
                   >
-                        {cart ? cart.cartQuantity : "0"} item(s) - ${cart ? cart.cartTotal : "0"}
+                        {totalQuantity} item(s) - ${totalPrice}
 
                   </Typography>
 

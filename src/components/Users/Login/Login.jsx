@@ -12,15 +12,13 @@ const Login = () => {
             error: loginError,
             isLoading: loginIsLoading,
             isError: loginIsError,
+            setMessage,
+            setError,
             currentUser,
       } = useContext(LoginContext)
 
       const {
             createCart,
-            message: cartMessage,
-            error: cartError,
-            setMessage: setCartMessage,
-            setError: setCartError,
       } = useContext(CartContext)
 
       const [user, setUser] = useState({
@@ -38,25 +36,21 @@ const Login = () => {
 
             }
 
-            cartError && alert(cartError)
+            loginMessage && console.log(loginMessage)
 
-            cartMessage && alert(cartMessage)
+            loginError && console.log(loginError)
 
-            cartError && setCartError(null)
+            loginError && setError(null)
 
-            cartMessage && setCartMessage(null)
+            loginMessage && setMessage(null)
 
-      }, [currentUser && (cartError || cartMessage)]);
+      }, [currentUser && (loginMessage || loginError)]);
 
       const handleForm = (e) => {
 
             e.preventDefault()
 
             login(user)
-
-            loginMessage && console.log(loginMessage)
-
-            loginError && console.log(loginError)
 
       }
 

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { getProductById } from '../../utils/getProducts.js'
+import { CartContext } from '../../context/CartContext/CartContext.jsx'
+import { LoginContext } from '../../context/LoginContext/LoginContext.jsx'
 
 const ItemDetailContainer = () => {
 
@@ -10,6 +12,24 @@ const ItemDetailContainer = () => {
       const [thumbnails, setThumbnails] = useState([])
       const [loading, setLoading] = useState(false)
       const [error, setError] = useState(null)
+
+      const { addItem } = useContext(CartContext);
+
+      const { isAuthenticated } = useContext(LoginContext);
+
+      const handleAddToCart = () => {
+
+            if (!isAuthenticated) {
+
+                  alert('Debes iniciar sesión para agregar productos al carrito');
+
+                  return;
+
+            }
+
+            addItem(product, 1);
+
+      }
 
       useEffect(() => {
 
@@ -47,10 +67,17 @@ const ItemDetailContainer = () => {
 
                   <ul>
                         <li> {thumbnails.map((thumbnail, index) => <img src={thumbnail} alt="thumbnail" key={index} />)} </li>
-                        <li>{product.title}</li>
-                        <li>{product.price}</li>
-                        <li>{product.description}</li>
+                        <li>Producto: {product.title}</li>
+                        <li>Precio: {product.price}</li>
+                        <li>Descripción: {product.description}</li>
+                        <li>Stock: {product.stock}</li>
+                        <li>Color: {product.color}</li>
+
                   </ul>
+
+                  <button
+                        onClick={handleAddToCart}
+                  >Agregar al carrito</button>
 
             </>
       )

@@ -1,11 +1,13 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../../../context/CartContext/CartContext.jsx';
 import { LoginContext } from '../../../../context/LoginContext/LoginContext.jsx';
 
 const CartOverlay = (props) => {
 
-      const { cart, getCartByUserId } = useContext(CartContext);
+      const { cart, getCartByUserId, clearCart } = useContext(CartContext);
       const { currentUser, isAuthenticated } = useContext(LoginContext);
+
+      const [isEmpty, setIsEmpty] = useState(true);
 
       useEffect(() => {
 
@@ -17,7 +19,7 @@ const CartOverlay = (props) => {
 
             loadData();
 
-      }, [isAuthenticated, currentUser && currentUser.id]);
+      }, [isAuthenticated && (isEmpty || cart.cartItems)]);
 
       const items = cart ? cart.cartItems : [];
 
@@ -39,6 +41,14 @@ const CartOverlay = (props) => {
             props.setLeaveOverlay(true);
 
             props.setIsVisible(false);
+      }
+
+      const handleClearCart = () => {
+
+            clearCart();
+
+            setIsEmpty(true);
+
       }
 
       return (
@@ -67,6 +77,8 @@ const CartOverlay = (props) => {
                                           </div>
                                     )
                               }) : <h4>Cart is empty</h4>}
+
+                              {items.length > 0 && <button className="clear-cart" onClick={handleClearCart}>Clear Cart</button>}
                         </div>
                   </div>
 

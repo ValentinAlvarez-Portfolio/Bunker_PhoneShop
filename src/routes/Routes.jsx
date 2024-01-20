@@ -11,49 +11,27 @@ export default function AppRoutes() {
 
       const { isAuthenticated } = useContext(LoginContext)
 
-      const PrivateRoutes = ({ children }) => {
-
-            return isAuthenticated ? children : <Navigate to="/login" />
-
-      }
-
-      const PublicRoutes = ({ children }) => {
-
-            return !isAuthenticated ? children : <Navigate to="/" />
-
-      }
-
       return (
             <Routes>
 
                   <Route path="/login" element={
-                        <PublicRoutes>
-                              <LoginPage />
-                        </PublicRoutes>
+                        <LoginPage />
                   } />
 
                   <Route path="/" element={
-                        <PrivateRoutes>
-                              <HomePage />
-                        </PrivateRoutes>
+                        <HomePage />
                   } />
 
                   <Route path="/profile" element={
-                        <PrivateRoutes>
-                              <ProfilePage />
-                        </PrivateRoutes>
+                        isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />
                   } />
 
                   <Route path="/:sId" element={
-                        <PrivateRoutes>
-                              <ItemListPage />
-                        </PrivateRoutes>
+                        <ItemListPage />
                   } />
 
                   <Route path="/:cId/:p_id" element={
-                        <PrivateRoutes>
-                              <ItemDetailPage />
-                        </PrivateRoutes>
+                        <ItemDetailPage />
                   } />
 
                   <Route path="*" element={<Navigate to="/" />} />

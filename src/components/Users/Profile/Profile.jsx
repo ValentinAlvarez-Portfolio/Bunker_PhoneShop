@@ -16,15 +16,14 @@ const Profile = () => {
       const [user, setUser] = useState({
             first_name: "",
             last_name: "",
-            email: "",
             age: 0,
-            phone: ""
-            /* address: {
+            phone: "",
+            address: {
                   city: "",
                   location: "",
                   street: "",
                   number: ""
-            }, */
+            },
       })
 
       const handleForm = (e) => {
@@ -42,12 +41,6 @@ const Profile = () => {
             if (e.target.name === "first_name" || e.target.name === "last_name" || e.target.name === 'country') {
 
                   value = value.charAt(0).toUpperCase() + value.slice(1)
-
-            }
-
-            if (e.target.name === "email") {
-
-                  value = value.toLowerCase()
 
             }
 
@@ -75,20 +68,6 @@ const Profile = () => {
 
       }
 
-      const handleLogout = () => {
-
-            logout()
-
-            alert('Hasta pronto!')
-
-            setTimeout(() => {
-
-                  checkSession()
-
-            }, 1500)
-
-      }
-
       return (
             <>
 
@@ -105,11 +84,6 @@ const Profile = () => {
 
                         <label htmlFor="last_name">Last Name</label>
                         <input type="text" placeholder={currentUser ? currentUser.last_name : 'Apellido'} name='last_name'
-                              onChange={handleChange}
-                        />
-
-                        <label htmlFor="email">Email</label>
-                        <input type="email" placeholder={currentUser ? currentUser.email : 'Email'} name='email'
                               onChange={handleChange}
                         />
 
@@ -151,9 +125,6 @@ const Profile = () => {
                         <button type="submit">Update</button>
 
                   </form>
-
-
-                  <button onClick={handleLogout}>Logout</button>
 
                   {message && <p>{message}</p>}
 

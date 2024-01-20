@@ -18,6 +18,17 @@ import {
       db
 } from "../services/config.js";
 
+const filterEmptyFields = (obj) => {
+
+      return Object.entries(obj)
+            .filter(([key, value]) => value !== null && value !== undefined && value !== '')
+            .reduce((acc, [key, value]) => ({
+                  ...acc,
+                  [key]: value
+            }), {});
+
+};
+
 export const getUserByEmail = async (user) => {
 
       try {
@@ -188,23 +199,45 @@ export const updateUser = async (oldUser, newUser) => {
 
             const userDocRef = doc(db, 'users', oldUser.id);
 
+            const filteredFields = filterEmptyFields(newUser);
+
+            const filteredAddress = filterEmptyFields(newUser.address);
+
+            const filteredNewUser = {
+                  ...filteredFields,
+                  address: {
+                        ...oldUser.address,
+                        ...filteredAddress
+                  }
+            };
+
+            console.log(newUser.age + ' ' + oldUser.age + ' ' + filteredNewUser.age);
+
             const response = await updateDoc(userDocRef, {
                   ...oldUser,
-                  ...newUser,
+                  ...filteredNewUser,
+                  age: newUser.age ? newUser.age : oldUser.age,
                   email: oldUser.email,
                   date_updated: new Date()
             });
 
-            await updateProfile(auth.currentUser, {
-                  displayName: newUser.first_name
-            });
+            if (filteredNewUser.first_name) {
 
-            const message = `Usuario ${newUser.email} actualizado correctamente`;
+                  await updateProfile(auth.currentUser, {
+
+                        displayName: filteredNewUser.first_name
+
+                  });
+
+            }
+
+            const message = `Usuario ${oldUser.email} actualizado correctamente`;
 
             return {
                   newUser: {
                         ...oldUser,
-                        ...newUser,
+                        ...filteredNewUser,
+                        age: newUser.age ? newUser.age : oldUser.age,
                         email: oldUser.email,
                         password: undefined,
                         confirm_password: undefined,

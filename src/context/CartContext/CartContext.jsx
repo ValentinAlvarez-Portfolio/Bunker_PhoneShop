@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react'
-import { getByUserId, create, calculateTotals } from '../../utils/carts.js'
+import { getByUserId, create, update, calculateTotals } from '../../utils/carts.js'
 import { LoginContext } from '../LoginContext/LoginContext.jsx';
 
 export const CartContext = createContext({
@@ -14,6 +14,8 @@ export const CartContext = createContext({
 
       message: null,
 
+      isEmpty: true,
+
       setMessage: () => { },
 
       setError: () => { },
@@ -22,7 +24,9 @@ export const CartContext = createContext({
 
       createCart: () => { },
 
-      addItem: () => { }
+      addItem: () => { },
+
+      clearCart: () => { },
 
 })
 
@@ -31,6 +35,8 @@ export const CartProvider = ({ children }) => {
       const { currentUser, isAuthenticated, needCart } = useContext(LoginContext)
 
       const [cart, setCart] = useState(null)
+
+      const [isEmpty, setIsEmpty] = useState(true)
 
       const [isError, setIsError] = useState(false)
 
@@ -59,6 +65,8 @@ export const CartProvider = ({ children }) => {
                   if (!existingCart) throw new Error(message)
 
                   const { totalQuantity, totalPrice } = calculateTotals(existingCart.cartItems)
+
+                  setIsEmpty(existingCart.cartItems.length === 0)
 
                   setCart({
                         ...existingCart,
@@ -130,7 +138,7 @@ export const CartProvider = ({ children }) => {
 
       }
 
-      const addItem = async (item, quantity, uid) => {
+      const addItem = async (item, quantity) => {
 
             setIsLoading(true)
 
@@ -138,14 +146,77 @@ export const CartProvider = ({ children }) => {
 
             try {
 
-                  if (!uid) throw new Error(notUserMessage)
+                  if (!isAuthenticated) throw new Error(notUserMessage)
 
                   if (!item) throw new Error(notItemMessage)
 
-                  const { cart } = await getByUserId(uid)
+                  const { existingCart, message } = await getByUserId(currentUser.id)
 
-                  if (!cart) throw new Error("No se encontró el carrito, intente loguearse nuevamente")
+                  if (!existingCart) throw new Error(message)
 
+                  const itemToAdd = {
+                        code: item.code,
+                        title: item.title,
+                        color: item.color,
+                        price: item.price,
+                        thumbnails: item.thumbnails.slice(0, 1),
+                        quantity: quantity
+                  }
+
+                  const existItem = existingCart.cartItems.find(cartItem => cartItem.code === itemToAdd.code)
+
+                  if (existItem) {
+
+                        const updatedProduct = {
+                              ...existItem,
+                              quantity: existItem.quantity + quantity
+                        }
+
+                        const updatedCart = {
+                              ...existingCart,
+                              cartItems: existingCart.cartItems.map(cartItem => cartItem.code === itemToAdd.code ? updatedProduct : cartItem)
+                        }
+
+                        const { totalQuantity, totalPrice } = calculateTotals(updatedCart.cartItems)
+
+                        const newCart = {
+                              ...updatedCart,
+                              cartTotal: totalPrice,
+                              cartQuantity: totalQuantity
+                        }
+
+                        const { cartPayload, message } = await update(newCart)
+
+                        setIsEmpty(false)
+
+                        setCart(cartPayload)
+
+                        setMessage(message)
+
+                  } else {
+
+                        const updatedCart = {
+                              ...existingCart,
+                              cartItems: [...existingCart.cartItems, itemToAdd]
+                        }
+
+                        const { totalQuantity, totalPrice } = calculateTotals(updatedCart.cartItems)
+
+                        const newCart = {
+                              ...updatedCart,
+                              cartTotal: totalPrice,
+                              cartQuantity: totalQuantity
+                        }
+
+                        const { cartPayload, message } = await update(newCart)
+
+                        setIsEmpty(false)
+
+                        setCart(cartPayload)
+
+                        setMessage(message)
+
+                  }
 
             } catch (error) {
 
@@ -161,11 +232,61 @@ export const CartProvider = ({ children }) => {
 
       }
 
+      const clearCart = async () => {
+
+            setIsLoading(true)
+
+            setIsError(false)
+
+            try {
+
+                  if (!isAuthenticated) throw new Error(notUserMessage)
+
+                  const { existingCart, message } = await getByUserId(currentUser.id)
+
+                  if (!existingCart) throw new Error(message)
+
+                  const updatedCart = {
+                        ...existingCart,
+                        cartItems: []
+                  }
+
+                  const { totalQuantity, totalPrice } = calculateTotals(updatedCart.cartItems)
+
+                  const newCart = {
+                        ...updatedCart,
+                        cartTotal: totalPrice,
+                        cartQuantity: totalQuantity
+                  }
+
+                  const response = await update(newCart)
+
+                  setIsEmpty(true)
+
+                  setCart(response.cartPayload)
+
+                  setMessage(response.message)
+
+            } catch (error) {
+
+                  setIsError(true)
+
+                  setError(error)
+
+            } finally {
+
+                  setIsLoading(false)
+
+            }
+
+      }
 
       return (
 
             <CartContext.Provider value={{
                   cart,
+                  setCart,
+                  isEmpty,
                   isError,
                   isLoading,
                   error,
@@ -174,7 +295,8 @@ export const CartProvider = ({ children }) => {
                   setError,
                   getCartByUserId,
                   createCart,
-                  addItem
+                  addItem,
+                  clearCart
             }}>
 
                   {children}
