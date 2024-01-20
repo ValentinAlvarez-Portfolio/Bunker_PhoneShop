@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react'
-import { registerUser, loginUser, getUserByEmail, getUserById, updateUser } from '../../utils/users.js'
+import { registerUser, loginUser, getUserByEmail, getUserById, updateUser, logoutUser, checkSession } from '../../utils/users.js'
 import { getByUserId } from '../../utils/carts.js'
 
 
@@ -30,6 +30,8 @@ export const LoginContext = createContext({
       setMessage: () => { },
 
       setError: () => { },
+
+      setAuthenticated: () => { },
 
 })
 
@@ -69,17 +71,11 @@ export const LoginProvider = ({ children }) => {
 
                   const { existingCart, message: cartMessage } = await getByUserId(userPayload.id)
 
-                  setCreateCart(existingCart.id ? false : true)
+                  setCreateCart(!existingCart)
 
                   setMessage(response.message)
 
                   setCurrentUser(userPayload);
-
-                  setTimeout(() => {
-
-                        setAuthenticated(true)
-
-                  }, 2000);
 
 
             } catch (error) {
@@ -192,15 +188,44 @@ export const LoginProvider = ({ children }) => {
 
       }
 
-      const logout = () => {
+      const logout = async () => {
 
-            setCurrentUser(null)
+            setIsLoading(true)
 
-            setTimeout(() => {
+            setIsError(false)
 
-                  setAuthenticated(false)
+            try {
 
-            }, 2000);
+                  const response = await logoutUser()
+
+                  setMessage(response.message)
+
+                  setCurrentUser(null)
+
+            } catch (error) {
+
+                  const toString = error.toString()
+
+                  const errorMessage = toString.slice(9, toString.length - 2)
+
+                  setIsError(true)
+
+                  setError(errorMessage)
+
+            } finally {
+
+                  setIsLoading(false)
+
+                  setTimeout(() => {
+
+                        setMessage(null)
+
+                        setError(null)
+
+                  }, 2000);
+
+            }
+
 
       }
 
@@ -221,6 +246,7 @@ export const LoginProvider = ({ children }) => {
                   update,
                   setMessage,
                   setError,
+                  setAuthenticated,
             }}>
 
                   {children}

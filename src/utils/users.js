@@ -170,6 +170,8 @@ export const loginUser = async (user) => {
 
             const message = !userCredential ? 'Las credenciales son incorrectas' : `Usuario ${user.email} logueado correctamente`;
 
+            localStorage.setItem('user', JSON.stringify(userCredential.user.uid));
+
             return {
                   userLogged: {
                         ...user,
@@ -255,3 +257,47 @@ export const updateUser = async (oldUser, newUser) => {
       }
 
 };
+
+export const logoutUser = async () => {
+
+      const auth = getAuth();
+
+      try {
+
+            await auth.signOut();
+
+            localStorage.removeItem('user');
+
+            return {
+                  message: 'Usuario deslogueado correctamente'
+            }
+
+      } catch (error) {
+
+            console.log(error);
+
+            throw new Error(error);
+
+      }
+
+}
+
+export const checkSession = () => {
+
+      const auth = getAuth();
+
+      const user = auth.currentUser;
+
+      const userLocal = localStorage.getItem('user');
+
+      const message = user && userLocal ? `Usuario ${user.email} logueado correctamente` : 'Usuario no logueado';
+
+      const logged = user && userLocal ? true : false;
+
+      return {
+            uid: userLocal,
+            message,
+            logged
+      }
+
+}

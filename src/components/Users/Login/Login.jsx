@@ -84,9 +84,8 @@ const Login = () => {
 
                   {loginIsError && <p>{loginError}</p>}
 
-                  {currentUser && <p>{currentUser.email}</p>}
+                  {currentUser && <p>El usuario {currentUser.email}, ha iniciado sesión correctamente</p>}
 
-                  {loginMessage && <p>{loginMessage}</p>}
             </>
       )
 }

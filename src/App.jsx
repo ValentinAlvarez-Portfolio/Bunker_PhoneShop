@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './components/Header/Header.jsx'
 import Footer from './components/Footer/Footer.jsx';
 import { HashRouter } from 'react-router-dom';
@@ -9,10 +9,10 @@ import { CartProvider } from './context/CartContext/CartContext.jsx';
 import { LoginProvider } from './context/LoginContext/LoginContext.jsx';
 
 function App() {
+
   return (
     <>
       <ThemeProvider theme={theme}>
-
         <LoginProvider>
           <CartProvider>
             <HashRouter>
