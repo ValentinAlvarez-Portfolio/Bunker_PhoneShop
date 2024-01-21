@@ -38,7 +38,7 @@ const Profile = () => {
 
             let value = e.target.value
 
-            if (e.target.name === "first_name" || e.target.name === "last_name" || e.target.name === 'country') {
+            if (e.target.name === "first_name" || e.target.name === "last_name" || e.target.name === 'country' || e.target.name === 'city' || e.target.name === 'location' || e.target.name === 'street') {
 
                   value = value.charAt(0).toUpperCase() + value.slice(1)
 

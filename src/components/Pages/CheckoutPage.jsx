@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Checkout from '../Checkout/Checkout.jsx'
 import Payment from '../Checkout/Payment/Payment.jsx'
 import Cart from '../Checkout/Cart/Cart.jsx'
+import Shipping from '../Checkout/Shipping/Shipping.jsx'
 
 const CheckoutPage = (props) => {
 
@@ -12,6 +13,7 @@ const CheckoutPage = (props) => {
       return (
             <>
                   <Cart />
+                  <Shipping />
                   <Payment />
             </>
       )

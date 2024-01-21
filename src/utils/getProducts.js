@@ -28,6 +28,7 @@ export const getProductById = async (p_id) => {
 
       const productResponse = await fetchProductById(p_id);
 
+
       if (productResponse.status === '200: OK') {
 
             const productData = productResponse.payload.payload;
@@ -35,6 +36,8 @@ export const getProductById = async (p_id) => {
             return productData;
 
       } else {
+
+            productResponse.message === '' ? productResponse.message = `No se encontró el producto con la id ${p_id}` : productResponse.message;
 
             throw new Error(productResponse.message);
 

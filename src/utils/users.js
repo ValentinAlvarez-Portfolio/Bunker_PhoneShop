@@ -213,8 +213,6 @@ export const updateUser = async (oldUser, newUser) => {
                   }
             };
 
-            console.log(newUser.age + ' ' + oldUser.age + ' ' + filteredNewUser.age);
-
             const response = await updateDoc(userDocRef, {
                   ...oldUser,
                   ...filteredNewUser,

@@ -5,7 +5,9 @@ const Register = () => {
       const {
             register,
             message,
+            setMessage,
             error,
+            setError,
             isLoading,
             isError,
       } = useContext(LoginContext)
@@ -30,11 +32,16 @@ const Register = () => {
 
             e.preventDefault()
 
-            register(user)
+            register(user).then(() => {
 
-            message && console.log(message)
+                  message && console.log(message)
 
-            error && console.log(error)
+                  error && console.log(error)
+
+            })
+
+            setError(null)
+            setMessage(null)
 
       }
 

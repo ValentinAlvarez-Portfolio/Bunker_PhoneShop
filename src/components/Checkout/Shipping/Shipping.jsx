@@ -1,62 +1,55 @@
-import React, { useState } from 'react'
-
-import { Container, Box, Typography, TextField, Button, MenuItem, useTheme } from '@mui/material'
-
+import React, { useState, useContext, useEffect } from 'react'
+import { LoginContext } from '../../../context/LoginContext/LoginContext.jsx'
 import Checkout from '../Checkout.jsx';
+import { Box, Typography, TextField, Button, useTheme } from '@mui/material';
 
-const Payment = (props) => {
+const Shipping = () => {
 
       const theme = useTheme();
 
-      const [cardData, setCardData] = useState({
+      const { currentUser, update, message } = useContext(LoginContext)
 
-            cardNumber: '',
-            cardHolderName: '',
-            cardExpirationDate: '',
-            cardSecurityCode: '',
+      const [address, setAddress] = useState({
+            country: '',
+            city: '',
+            location: '',
+            street: '',
+            number: '',
+      })
 
-      });
-
-      const [cardInstallments, setCardInstallments] = useState(1);
+      const currentUserAddress = currentUser && currentUser.address
 
       const handleSubmit = (e) => {
 
-            e.preventDefault();
+            e.preventDefault()
 
-            const paymentData = {
+            const newUser = { ...currentUser, address }
 
-                  cardNumber,
-                  cardHolderName,
-                  cardExpirationDate,
-                  cardSecurityCode,
-                  cardInstallments,
+            update(newUser)
 
-            }
-
-            console.log(paymentData)
-
-      };
+      }
 
       const handleChange = (e) => {
 
-            let value = e.target.value;
+            let value = e.target.value
 
-            if (e.target.name === "cardHolderName") {
+            if (e.target.name === "country" || e.target.name === "city" || e.target.name === "location" || e.target.name === "street") {
 
                   value = value.charAt(0).toUpperCase() + value.slice(1)
 
             }
 
-            if (e.target.name === "cardNumber" || e.target.name === "cardSecurityCode" || e.target.name === "cardInstallments") {
+            setAddress({ ...address, [e.target.name]: value })
 
-                  value = Number(value)
-
-            }
-
-            setCardData({ ...cardData, [e.target.name]: value })
       }
 
-      const styledPayment = {
+      useEffect(() => {
+
+            console.log(message)
+
+      }, [message])
+
+      const styledAddress = {
 
             styledBox: {
                   display: 'flex',
@@ -96,19 +89,19 @@ const Payment = (props) => {
       return (
             <Checkout>
                   <Box
-                        sx={styledPayment.styledBox}
+                        sx={styledAddress.styledBox}
                   >
                         <Typography
                               fontFamily='bold'
-                              sx={styledPayment.styledTitle}
+                              sx={styledAddress.styledTitle}
                         >
-                              Información de Pago
+                              Datos de envío
                         </Typography>
                         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                               <TextField
-                                    value={cardData.cardNumber}
-                                    name="cardNumber"
-                                    label="Número de tarjeta"
+                                    value={address.country}
+                                    name="country"
+                                    label={currentUserAddress ? currentUserAddress.country : 'País'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -116,9 +109,9 @@ const Payment = (props) => {
                                     onChange={handleChange}
                               />
                               <TextField
-                                    value={cardData.cardHolderName}
-                                    name="cardHolderName"
-                                    label="Nombre del titular de la tarjeta"
+                                    value={address.city}
+                                    name="city"
+                                    label={currentUserAddress ? currentUserAddress.city : 'Ciudad'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -126,9 +119,9 @@ const Payment = (props) => {
                                     onChange={handleChange}
                               />
                               <TextField
-                                    value={cardData.cardExpirationDate}
-                                    name="expirationDate"
-                                    label="Fecha de expedición"
+                                    value={address.location}
+                                    name="location"
+                                    label={currentUserAddress ? currentUserAddress.location : 'Localidad'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -136,9 +129,9 @@ const Payment = (props) => {
                                     onChange={handleChange}
                               />
                               <TextField
-                                    value={cardData.cardSecurityCode}
-                                    name="securityCode"
-                                    label="Código de seguridad"
+                                    value={address.street}
+                                    name="street"
+                                    label={currentUserAddress ? currentUserAddress.street : 'Calle'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -146,34 +139,27 @@ const Payment = (props) => {
                                     onChange={handleChange}
                               />
                               <TextField
-                                    select
-                                    value={cardInstallments}
-                                    name="installments"
-                                    label="Cuotas"
+                                    value={address.number}
+                                    name="number"
+                                    label={currentUserAddress ? currentUserAddress.number : 'Número'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
                                     required
-                                    onChange={(e) => setCardInstallments(e.target.value)}
-                              >
-                                    <MenuItem value={1}>1 cuota</MenuItem>
-                                    <MenuItem value={3}>3 cuotas</MenuItem>
-                                    <MenuItem value={6}>6 cuotas</MenuItem>
-                                    <MenuItem value={10}>10 cuotas</MenuItem>
-                                    <MenuItem value={12}>12 cuotas</MenuItem>
-                              </TextField>
+                                    onChange={handleChange}
+                              />
                               <Box
-                                    sx={styledPayment.styledBoxButton}
+                                    sx={styledAddress.styledBoxButton}
                               >
                                     <Button
                                           type="submit"
                                           variant="contained"
-                                          sx={styledPayment.styledButton}
+                                          sx={styledAddress.styledButton}
                                     >
                                           <Typography
                                                 fontFamily={'semiBold'}
                                           >
-                                                Pagar
+                                                Enviar
                                           </Typography>
                                     </Button>
                               </Box>
@@ -183,4 +169,4 @@ const Payment = (props) => {
       )
 }
 
-export default Payment
+export default Shipping

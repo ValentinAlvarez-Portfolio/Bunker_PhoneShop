@@ -19,6 +19,11 @@ const Login = () => {
       } = useContext(LoginContext)
 
       const {
+            message: cartMessage,
+            setMessage: setCartMessage,
+            setError: setCartError,
+            error: cartError,
+            isLoading: cartIsLoading,
             getCartByUserId,
             createCart,
       } = useContext(CartContext)
@@ -30,35 +35,64 @@ const Login = () => {
 
       useEffect(() => {
 
-            if (!hasRun.current && currentUser && currentUser.id) {
+            if (currentUser && currentUser.id) {
+                  createCart().then(() => {
 
-                  const result = createCart()
+                        cartMessage && console.log(cartMessage)
 
-                  hasRun.current = true;
+                        cartError && console.log(cartError)
 
+                  }).catch((err) => {
+
+                        err && console.log(err)
+
+                  }).finally(() => {
+
+                        !cartIsLoading && setCartError(null) && setCartMessage(null)
+
+                  })
             }
 
-            if (hasRun.current && !needCart && currentUser) {
+      }, [currentUser]);
 
-                  getCartByUserId()
+      useEffect(() => {
 
+            if (!needCart) {
+                  getCartByUserId().then(() => {
+
+                        cartMessage && console.log(cartMessage)
+
+                        cartError && console.log(cartError)
+
+                  }).catch((err) => {
+
+                        err && console.log(err)
+
+                  }).finally(() => {
+
+                        !cartIsLoading && setCartError(null) && setCartMessage(null)
+
+                  })
             }
 
-            loginMessage && console.log(loginMessage)
-
-            loginError && console.log(loginError)
-
-            loginError && setError(null)
-
-            loginMessage && setMessage(null)
-
-      }, [currentUser && (loginMessage || loginError)]);
+      }, [needCart]);
 
       const handleForm = (e) => {
 
             e.preventDefault()
 
-            login(user)
+            login(user).then(() => {
+
+                  loginMessage && console.log(loginMessage)
+
+                  loginError && console.log(loginError)
+
+
+            }).catch((err) => {
+
+                  err && console.log(err)
+
+            })
 
       }
 
@@ -92,7 +126,7 @@ const Login = () => {
 
                   {loginIsError && <p>{loginError}</p>}
 
-                  {currentUser && <p>El usuario {currentUser.email}, ha iniciado sesión correctamente</p>}
+                  {loginMessage && <p>{loginMessage}</p>}
 
             </>
       )
