@@ -1,14 +1,42 @@
 import React from 'react'
+import { Container } from '@mui/material'
+import CartSections from './Cart/CartNavbar/CartSections/CartSections.jsx'
 
-const Checkout = () => {
+const Checkout = (props) => {
+
+
       return (
             <>
 
-                  <div>
+                  <Container
+                        maxWidth="xxl"
+                        sx={{
+                              marginTop: "4rem",
+                        }}
+                        style={{
+                              padding: 0,
+                        }}
+                  >
 
+                        <CartSections />
 
+                        <Container
+                              maxWidth="xl"
+                              className="fullSize"
+                              sx={{
+                                    marginTop: "4rem",
+                                    boxShadow: "4px 7px 8px 2px #8b9198",
+                              }}
+                              style={{
+                                    padding: 0,
+                              }}
+                        >
 
-                  </div>
+                              {props.children}
+
+                        </Container>
+
+                  </Container>
 
             </>
       )

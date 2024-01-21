@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../../../context/CartContext/CartContext.jsx';
 import { LoginContext } from '../../../../context/LoginContext/LoginContext.jsx';
+import { Link } from 'react-router-dom'
 
 const CartOverlay = (props) => {
 
@@ -79,6 +80,10 @@ const CartOverlay = (props) => {
                               }) : <h4>Cart is empty</h4>}
 
                               {items.length > 0 && <button className="clear-cart" onClick={handleClearCart}>Clear Cart</button>}
+
+                              <Link to={'/checkout'}>
+                                    <button>Checkout</button>
+                              </Link>
                         </div>
                   </div>
 

@@ -12,12 +12,14 @@ const Login = () => {
             error: loginError,
             isLoading: loginIsLoading,
             isError: loginIsError,
+            needCart,
             setMessage,
             setError,
             currentUser,
       } = useContext(LoginContext)
 
       const {
+            getCartByUserId,
             createCart,
       } = useContext(CartContext)
 
@@ -33,6 +35,12 @@ const Login = () => {
                   const result = createCart()
 
                   hasRun.current = true;
+
+            }
+
+            if (hasRun.current && !needCart && currentUser) {
+
+                  getCartByUserId()
 
             }
 

@@ -5,6 +5,7 @@ import LoginPage from "../components/Pages/LoginPage.jsx";
 import ProfilePage from "../components/Pages/ProfilePage.jsx";
 import ItemListPage from "../components/Pages/ItemListPage.jsx";
 import ItemDetailPage from "../components/Pages/ItemDetailPage.jsx";
+import CheckoutPage from "../components/Pages/CheckoutPage.jsx";
 import { LoginContext } from "../context/LoginContext/LoginContext.jsx";
 import { checkSession } from "../utils/users.js";
 
@@ -41,6 +42,10 @@ export default function AppRoutes() {
 
                   <Route path="/:cId/:p_id" element={
                         <ItemDetailPage />
+                  } />
+
+                  <Route path="/checkout" element={
+                        isAuthenticated ? <CheckoutPage /> : <Navigate to="/login" />
                   } />
 
                   <Route path="*" element={<Navigate to="/" />} />

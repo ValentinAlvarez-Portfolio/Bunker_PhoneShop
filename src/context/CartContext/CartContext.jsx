@@ -26,6 +26,8 @@ export const CartContext = createContext({
 
       addItem: () => { },
 
+      deleteItem: () => { },
+
       clearCart: () => { },
 
 })
@@ -159,7 +161,7 @@ export const CartProvider = ({ children }) => {
                         title: item.title,
                         color: item.color,
                         price: item.price,
-                        thumbnails: item.thumbnails.slice(0, 1),
+                        thumbnails: item.thumbnails,
                         quantity: quantity
                   }
 
@@ -217,6 +219,68 @@ export const CartProvider = ({ children }) => {
                         setMessage(message)
 
                   }
+
+            } catch (error) {
+
+                  setIsError(true)
+
+                  setError(error)
+
+            } finally {
+
+                  setIsLoading(false)
+
+            }
+
+      }
+
+      const deleteItem = async (item) => {
+
+            setIsLoading(true)
+
+            setIsError(false)
+
+            try {
+
+                  if (!isAuthenticated) throw new Error(notUserMessage)
+
+                  if (!item) throw new Error(notItemMessage)
+
+                  const { existingCart, message } = await getByUserId(currentUser.id)
+
+                  if (!existingCart) throw new Error(message)
+
+                  const existingItem = existingCart.cartItems.find(cartItem => cartItem.code === item.code)
+
+                  if (!existingItem) throw new Error(notItemMessage)
+
+                  const updatedCart = {
+
+                        ...existingCart,
+
+                        cartItems: existingCart.cartItems.filter(cartItem => cartItem.code !== item.code)
+
+                  }
+
+                  const { totalQuantity, totalPrice } = calculateTotals(updatedCart.cartItems)
+
+                  const newCart = {
+
+                        ...updatedCart,
+
+                        cartTotal: totalPrice,
+
+                        cartQuantity: totalQuantity
+
+                  }
+
+                  const reponse = await update(newCart)
+
+                  setIsEmpty(false)
+
+                  setCart(reponse.cartPayload)
+
+                  setMessage(reponse.message)
 
             } catch (error) {
 
@@ -296,6 +360,7 @@ export const CartProvider = ({ children }) => {
                   getCartByUserId,
                   createCart,
                   addItem,
+                  deleteItem,
                   clearCart
             }}>
 
