@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "../components/Pages/HomePage.jsx";
 import LoginPage from "../components/Pages/LoginPage.jsx";
+import RegisterPage from "../components/Pages/RegisterPage.jsx";
 import ProfilePage from "../components/Pages/ProfilePage.jsx";
 import ItemListPage from "../components/Pages/ItemListPage.jsx";
 import ItemDetailPage from "../components/Pages/ItemDetailPage.jsx";
@@ -26,6 +27,10 @@ export default function AppRoutes() {
 
                   <Route path="/login" element={
                         <LoginPage />
+                  } />
+
+                  <Route path="/register" element={
+                        <RegisterPage />
                   } />
 
                   <Route path="/" element={

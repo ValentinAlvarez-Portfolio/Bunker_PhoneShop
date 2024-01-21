@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Dropdown from '../Dropdown.jsx'
 import { Box, MenuItem, Typography, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom'
@@ -10,6 +10,8 @@ const ItemsMenu = (props) => {
       const { logout, isAuthenticated } = useContext(LoginContext)
 
       const theme = useTheme();
+
+      const [isRegistering, setIsRegistering] = useState(false);
 
       const styledMenuItems = {
 
@@ -33,7 +35,6 @@ const ItemsMenu = (props) => {
             }
 
       }
-
       const ItemsFilters = () => {
 
             return (
@@ -64,8 +65,13 @@ const ItemsMenu = (props) => {
                               <Box>
                                     <Link sx={{
                                           textDecoration: "none",
-                                    }} to={'/login'}>
+                                    }} to={'/login'} >
                                           <MenuItem key="login" sx={styledMenuItems} > Login </MenuItem>
+                                    </Link>
+                                    <Link sx={{
+                                          textDecoration: "none",
+                                    }} to={'/register'}>
+                                          <MenuItem key="login" sx={styledMenuItems} > Register </MenuItem>
                                     </Link>
                               </Box>
                         )}

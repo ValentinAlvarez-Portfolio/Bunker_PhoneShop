@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import Login from '../Users/Login/Login.jsx'
+import Register from '../Users/Register/Register.jsx'
 import { Link } from 'react-router-dom'
-import { Button, Typography, useTheme } from '@mui/material'
+import { Button, useTheme, Typography } from '@mui/material'
 
-const LoginPage = () => {
+const RegisterPage = () => {
 
       const theme = useTheme();
 
       return (
             <>
 
-                  <Login />
+                  <Register />
 
                   <hr />
 
@@ -21,10 +22,10 @@ const LoginPage = () => {
                               marginLeft: "0.5rem",
                         }}
                   >
-                        ¿Aún no tienes una cuenta?
+                        Si ya tienes una cuenta,
                   </Typography>
 
-                  <Link to="/register">
+                  <Link to="/login">
                         <Button
                               variant="contained"
                               sx={{
@@ -39,12 +40,13 @@ const LoginPage = () => {
                                           color: 'white'
                                     }}
                               >
-                                    Regístrate
+                                    Inicia sesión
                               </Typography>
                         </Button>
                   </Link>
+
             </>
       )
 }
 
-export default LoginPage
+export default RegisterPage
