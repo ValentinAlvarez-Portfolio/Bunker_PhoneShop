@@ -232,8 +232,6 @@ const Cart = () => {
 
                   }
 
-
-
                   <CartResume cartTotal={cart.cartTotal} />
 
 
