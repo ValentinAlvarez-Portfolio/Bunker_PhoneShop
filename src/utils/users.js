@@ -121,6 +121,8 @@ export const registerUser = async (user) => {
 
       try {
 
+            const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
+
             const userCollectionRef = collection(db, 'users');
 
             const response = await addDoc(userCollectionRef, {
@@ -133,8 +135,6 @@ export const registerUser = async (user) => {
             if (!response) {
                   throw new Error('No se pudo registrar el usuario');
             };
-
-            const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
 
             const message = `Usuario ${user.email} registrado correctamente`;
 
@@ -152,7 +152,7 @@ export const registerUser = async (user) => {
 
       } catch (error) {
 
-            console.log(error);
+            error = 'El email ya está registrado';
 
             throw new Error(error);
 

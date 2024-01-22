@@ -40,9 +40,6 @@ const Register = () => {
 
             })
 
-            setError(null)
-            setMessage(null)
-
       }
 
       const handleChange = (e) => {

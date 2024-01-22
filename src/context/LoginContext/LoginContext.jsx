@@ -111,6 +111,10 @@ export const LoginProvider = ({ children }) => {
 
             try {
 
+                  if (/^\w+([\.-]?\w+)*@(?:|hotmail|outlook|gmail)\.(?:|com|es)+$/i.test(userData.email) === false) throw new Error("El email ingresado no es válido")
+
+                  if (userData.password.length < 8) throw new Error("La contraseña debe tener al menos 8 caracteres")
+
                   if (userData.password !== userData.confirm_password) throw new Error(notSamePasswordMessage)
 
                   const { userPayload, message } = await registerUser(userData)
