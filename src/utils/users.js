@@ -11,7 +11,9 @@ import {
       addDoc,
       getDocs,
       doc,
-      updateDoc
+      updateDoc,
+      query,
+      where,
 } from "firebase/firestore";
 
 import {
@@ -35,19 +37,28 @@ export const getUserByEmail = async (user) => {
 
             const userCollectionRef = collection(db, 'users');
 
-            const querySnapshot = await getDocs(userCollectionRef);
+            const q = query(userCollectionRef, where("email", "==", user.email));
+
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+
+                  return {
+
+                        userPayload: null,
+                        message: 'Usuario no encontrado'
+
+                  };
+
+            }
 
             let userToGet = {};
 
             querySnapshot.forEach((doc) => {
 
-                  if (doc.data().email === user.email) {
-
-                        userToGet = {
-                              ...doc.data(),
-                              id: doc.id
-                        }
-
+                  userToGet = {
+                        ...doc.data(),
+                        id: doc.id
                   }
 
             });
@@ -81,19 +92,28 @@ export const getUserById = async (uid) => {
 
             const userCollectionRef = collection(db, 'users');
 
-            const querySnapshot = await getDocs(userCollectionRef);
+            const q = query(userCollectionRef, where("id", "==", uid));
+
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+
+                  return {
+
+                        userPayload: null,
+                        message: 'Usuario no encontrado'
+
+                  };
+
+            }
 
             let userPayload = {};
 
             querySnapshot.forEach((doc) => {
 
-                  if (doc.id === uid) {
-
-                        userPayload = {
-                              ...doc.data(),
-                              id: doc.id
-                        }
-
+                  userPayload = {
+                        ...doc.data(),
+                        id: doc.id
                   }
 
             });
@@ -101,7 +121,8 @@ export const getUserById = async (uid) => {
             const message = userPayload.id ? `Usuario ${userPayload.email} encontrado correctamente` : 'Usuario no encontrado';
 
             return {
-                  userPayload
+                  userPayload,
+                  message
             }
 
       } catch (error) {
@@ -113,8 +134,6 @@ export const getUserById = async (uid) => {
       };
 
 }
-
-// Modificar respuestas
 export const registerUser = async (user) => {
 
       const auth = getAuth();
@@ -169,8 +188,6 @@ export const loginUser = async (user) => {
             const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password);
 
             const message = !userCredential ? 'Las credenciales son incorrectas' : `Usuario ${user.email} logueado correctamente`;
-
-            localStorage.setItem('user', JSON.stringify(userCredential.user.uid));
 
             return {
                   userLogged: {
@@ -293,7 +310,7 @@ export const checkSession = () => {
       const logged = user && userLocal ? true : false;
 
       return {
-            uid: userLocal,
+            userPayload: userLocal ? JSON.parse(userLocal) : null,
             message,
             logged
       }

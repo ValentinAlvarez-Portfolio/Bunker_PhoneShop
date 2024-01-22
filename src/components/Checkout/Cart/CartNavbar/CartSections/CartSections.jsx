@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Grid, Button, Divider, Typography, useTheme } from '@mui/material'
 import CartNavbar from '../CartNavbar.jsx';
 import { CartContext } from '../../../../../context/CartContext/CartContext.jsx';
+import { CheckoutContext } from '../../../../../context/CheckoutContext/CheckoutContext.jsx';
 import CircleIcon from '@mui/icons-material/Circle';
 
 const styledCartSections = {
@@ -29,7 +30,13 @@ const styledCartSections = {
 
 const CartSections = (props) => {
 
-      const sections = ["Resumen de compra", "Datos de envío", "Método de pago", "Confirmación"]
+      const { setActiveSection } = useContext(CheckoutContext);
+
+      const goToCart = () => setActiveSection('cart');
+      const goToShipping = () => setActiveSection('shipping');
+      const goToPayment = () => setActiveSection('payment');
+
+      const sections = [{ name: 'Carrito', action: goToCart }, { name: 'Datos de envío', action: goToShipping }, { name: 'Datos de pago', action: goToPayment }];
 
       const theme = useTheme();
 
@@ -80,14 +87,11 @@ const CartSections = (props) => {
                               >
                                     <Button
                                           sx={styledCartSections.styledButton}
-                                          onClick={() => {
-                                                /* props.onHiddenUserData();
-                                                props.onHiddenCheckOut(); */
-                                          }}
+                                          onClick={section.action}
 
                                     >
                                           <Typography fontFamily={'semiBold'} sx={{ color: theme.palette.secondary.light }}>
-                                                {section}
+                                                {section.name}
                                           </Typography>
                                     </Button>
 

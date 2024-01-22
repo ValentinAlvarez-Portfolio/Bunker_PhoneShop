@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from './components/Theme/Theme.jsx';
 import { CartProvider } from './context/CartContext/CartContext.jsx';
 import { LoginProvider } from './context/LoginContext/LoginContext.jsx';
+import { CheckoutProvider } from './context/CheckoutContext/CheckoutContext.jsx';
 
 function App() {
 
@@ -15,11 +16,13 @@ function App() {
       <ThemeProvider theme={theme}>
         <LoginProvider>
           <CartProvider>
-            <HashRouter>
-              <Header />
-              <AppRoutes />
-              <Footer />
-            </HashRouter>
+            <CheckoutProvider>
+              <HashRouter>
+                <Header />
+                <AppRoutes />
+                <Footer />
+              </HashRouter>
+            </CheckoutProvider>
           </CartProvider>
         </LoginProvider>
 

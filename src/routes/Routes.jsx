@@ -22,6 +22,37 @@ export default function AppRoutes() {
 
       }, [currentUser && currentUser.id]);
 
+      /* const { currentUser, isAuthenticated, setAuthenticated, checkUserSession } = useContext(LoginContext);
+
+      useEffect(() => {
+
+            checkUserSession()
+
+      }, [currentUser && currentUser.id]);
+
+      useEffect(() => {
+
+            checkSession().then(({ logged }) => {
+
+                  if (logged) {
+
+                        console.log("logged" + logged)
+
+                        setAuthenticated(true)
+
+                  } else {
+
+                        setAuthenticated(false)
+
+                  }
+
+            })
+
+
+
+      }, []); */
+
+
       return (
             <Routes>
 

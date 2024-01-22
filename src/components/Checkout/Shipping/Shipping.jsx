@@ -97,11 +97,15 @@ const Shipping = () => {
                         >
                               Datos de envío
                         </Typography>
-                        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+                        <form onSubmit={handleSubmit} style={{
+                              width: '100%',
+                              fontFamily: theme.typography.fontFamily.regular,
+                              fontSize: '0.85rem'
+                        }}>
                               <TextField
                                     value={address.country}
                                     name="country"
-                                    label={currentUserAddress ? currentUserAddress.country : 'País'}
+                                    label={(currentUserAddress && currentUserAddress.country) ? currentUserAddress.country : 'País'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -111,7 +115,7 @@ const Shipping = () => {
                               <TextField
                                     value={address.city}
                                     name="city"
-                                    label={currentUserAddress ? currentUserAddress.city : 'Ciudad'}
+                                    label={(currentUserAddress && currentUserAddress.city) ? currentUserAddress.city : 'Ciudad'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -121,7 +125,7 @@ const Shipping = () => {
                               <TextField
                                     value={address.location}
                                     name="location"
-                                    label={currentUserAddress ? currentUserAddress.location : 'Localidad'}
+                                    label={(currentUserAddress && currentUserAddress.location) ? currentUserAddress.location : 'Localidad'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -131,7 +135,7 @@ const Shipping = () => {
                               <TextField
                                     value={address.street}
                                     name="street"
-                                    label={currentUserAddress ? currentUserAddress.street : 'Calle'}
+                                    label={(currentUserAddress && currentUserAddress.street) ? currentUserAddress.street : 'Calle'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -141,7 +145,7 @@ const Shipping = () => {
                               <TextField
                                     value={address.number}
                                     name="number"
-                                    label={currentUserAddress ? currentUserAddress.number : 'Número'}
+                                    label={(currentUserAddress && currentUserAddress.number) ? currentUserAddress.number : 'Número'}
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -162,7 +166,18 @@ const Shipping = () => {
                                                 Enviar
                                           </Typography>
                                     </Button>
+                                    {message && <Typography
+                                          fontFamily={theme.typography.fontFamily.regular}
+                                          sx={{
+                                                marginTop: '1rem',
+                                                marginLeft: '1rem'
+                                          }}
+                                    >
+                                          {message}
+                                    </Typography>
+                                    }
                               </Box>
+
                         </form>
                   </Box>
             </Checkout>

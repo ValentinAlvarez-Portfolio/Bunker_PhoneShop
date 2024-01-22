@@ -25,6 +25,8 @@ export const LoginContext = createContext({
 
       logout: () => { },
 
+      checkUserSession: () => { },
+
       update: () => { },
 
       setMessage: () => { },
@@ -68,6 +70,8 @@ export const LoginProvider = ({ children }) => {
                   const response = await loginUser(user)
 
                   if (!response.userLogged) throw new Error("La contraseña ingresada, es incorrecta");
+
+                  localStorage.setItem("user", JSON.stringify(userPayload))
 
                   const { existingCart, message: cartMessage } = await getByUserId(userPayload.id)
 
@@ -233,6 +237,50 @@ export const LoginProvider = ({ children }) => {
 
       }
 
+      const checkUserSession = () => {
+
+            setIsLoading(true)
+
+            setIsError(false)
+
+            try {
+
+                  const { userPayload, message, logged } = checkSession()
+
+                  if (!logged) throw new Error(message)
+
+                  setMessage(message)
+
+                  setCurrentUser(userPayload)
+
+                  setAuthenticated(true)
+
+            } catch (error) {
+
+                  const toString = error.toString()
+
+                  const errorMessage = toString.slice(7, toString.length)
+
+                  setIsError(true)
+
+                  setError(errorMessage)
+
+            } finally {
+
+                  setIsLoading(false)
+
+                  setTimeout(() => {
+
+                        setMessage(null)
+
+                        setError(null)
+
+                  }, 2000);
+
+            }
+
+      }
+
 
       return (
 
@@ -247,6 +295,7 @@ export const LoginProvider = ({ children }) => {
                   login,
                   register,
                   logout,
+                  checkUserSession,
                   update,
                   setMessage,
                   setError,

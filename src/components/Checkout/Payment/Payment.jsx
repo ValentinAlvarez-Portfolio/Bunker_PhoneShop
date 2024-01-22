@@ -1,12 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 import { Container, Box, Typography, TextField, Button, MenuItem, useTheme } from '@mui/material'
 
 import Checkout from '../Checkout.jsx';
 
+import { LoginContext } from '../../../context/LoginContext/LoginContext.jsx';
+
+import { CheckoutContext } from '../../../context/CheckoutContext/CheckoutContext.jsx';
+
 const Payment = (props) => {
 
       const theme = useTheme();
+
+      const { currentUser, update, message, error } = useContext(LoginContext)
+
+      const { setActiveSection } = useContext(CheckoutContext)
+
+      useEffect(() => {
+
+            if (!currentUser || !currentUser.address || !currentUser.address.country || !currentUser.address.city || !currentUser.address.street || !currentUser.address.number || !currentUser.address.location) {
+
+                  alert("Debe completar los datos de envío para continuar")
+
+                  setActiveSection('shipping')
+
+            }
+
+      }, [currentUser])
 
       const [cardData, setCardData] = useState({
 
@@ -25,15 +45,19 @@ const Payment = (props) => {
 
             const paymentData = {
 
-                  cardNumber,
-                  cardHolderName,
-                  cardExpirationDate,
-                  cardSecurityCode,
-                  cardInstallments,
+                  ...cardData,
 
             }
 
-            console.log(paymentData)
+            const newUser = { ...currentUser, paymentData: { ...paymentData } }
+
+            update(newUser).then(() => {
+
+                  message && console.log(message)
+
+                  error && console.log(error)
+
+            })
 
       };
 
@@ -104,12 +128,15 @@ const Payment = (props) => {
                         >
                               Información de Pago
                         </Typography>
-                        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+                        <form onSubmit={handleSubmit} style={{
+                              width: '100%',
+                              fontFamily: theme.typography.fontFamily.regular,
+                              fontSize: '0.85rem',
+                        }}>
                               <TextField
                                     value={cardData.cardNumber}
                                     name="cardNumber"
                                     label="Número de tarjeta"
-                                    variant="outlined"
                                     fullWidth
                                     margin="normal"
                                     required
@@ -119,7 +146,6 @@ const Payment = (props) => {
                                     value={cardData.cardHolderName}
                                     name="cardHolderName"
                                     label="Nombre del titular de la tarjeta"
-                                    variant="outlined"
                                     fullWidth
                                     margin="normal"
                                     required
@@ -127,22 +153,20 @@ const Payment = (props) => {
                               />
                               <TextField
                                     value={cardData.cardExpirationDate}
-                                    name="expirationDate"
+                                    name="cardExpirationDate"
                                     label="Fecha de expedición"
-                                    variant="outlined"
                                     fullWidth
-                                    margin="normal"
                                     required
+                                    margin="normal"
                                     onChange={handleChange}
                               />
                               <TextField
                                     value={cardData.cardSecurityCode}
-                                    name="securityCode"
+                                    name="cardSecurityCode"
                                     label="Código de seguridad"
-                                    variant="outlined"
                                     fullWidth
-                                    margin="normal"
                                     required
+                                    margin="normal"
                                     onChange={handleChange}
                               />
                               <TextField
@@ -176,6 +200,16 @@ const Payment = (props) => {
                                                 Pagar
                                           </Typography>
                                     </Button>
+                                    {message && <Typography
+                                          fontFamily={theme.typography.fontFamily.regular}
+                                          sx={{
+                                                marginTop: '1rem',
+                                                marginLeft: '1rem'
+                                          }}
+                                    >
+                                          {message}
+                                    </Typography>
+                                    }
                               </Box>
                         </form>
                   </Box>

@@ -1,7 +1,18 @@
+import React, { useState, useContext, useEffect } from "react"
 import { Divider, Typography, Card, CardContent, Grid, Button, useTheme } from "@mui/material"
 import { Link } from "react-router-dom"
+import { LoginContext } from "../../../../context/LoginContext/LoginContext.jsx"
+import { CartContext } from "../../../../context/CartContext/CartContext.jsx"
 
 const CartResume = (props) => {
+
+    const { currentUser } = useContext(LoginContext);
+
+    const { cart } = useContext(CartContext);
+
+    const [shippingCost, setShippingCost] = useState(0);
+
+    const [total, setTotal] = useState(0);
 
     const styledCartResume = {
 
@@ -33,6 +44,26 @@ const CartResume = (props) => {
         },
 
     }
+
+    useEffect(() => {
+
+        if (currentUser.address.country === "Uruguay") {
+
+            setShippingCost(0)
+
+        } else {
+
+            setShippingCost(15)
+
+        }
+
+    }, [currentUser.address.country])
+
+    useEffect(() => {
+
+        setTotal(props.cartTotal + shippingCost)
+
+    }, [shippingCost])
 
     const theme = useTheme();
 
@@ -114,7 +145,7 @@ const CartResume = (props) => {
                                     justifyContent: 'flex-end',
                                 }}
                             >
-                                USD 0
+                                USD {shippingCost.toFixed(2)}
                             </Typography>
 
                         </CardContent>
@@ -144,7 +175,7 @@ const CartResume = (props) => {
                                     fontSize: "1.2rem",
                                 }}
                             >
-                                USD {props.cartTotal.toFixed(2)}
+                                USD {total.toFixed(2)}
                             </Typography>
 
 

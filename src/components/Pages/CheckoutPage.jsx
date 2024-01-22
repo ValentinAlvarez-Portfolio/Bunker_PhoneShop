@@ -1,22 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Checkout from '../Checkout/Checkout.jsx'
 import Payment from '../Checkout/Payment/Payment.jsx'
 import Cart from '../Checkout/Cart/Cart.jsx'
 import Shipping from '../Checkout/Shipping/Shipping.jsx'
+import { CheckoutContext } from '../../context/CheckoutContext/CheckoutContext.jsx'
+import CartSections from '../Checkout/Cart/CartNavbar/CartSections/CartSections.jsx'
 
-const CheckoutPage = (props) => {
+const CheckoutPage = () => {
 
-      const [isPayment, setIsPayment] = useState(false);
-      const [isShipping, setIsShipping] = useState(false);
-      const [isCart, setIsCart] = useState(false);
+      const { activeSection } = useContext(CheckoutContext)
+
+      console.log(activeSection)
 
       return (
             <>
-                  <Cart />
-                  <Shipping />
-                  <Payment />
+                  {activeSection === 'cart' && <Cart />}
+                  {activeSection === 'shipping' && <Shipping />}
+                  {activeSection === 'payment' && <Payment />}
             </>
-      )
-}
+      );
+};
 
 export default CheckoutPage
