@@ -63,6 +63,7 @@ const Item = ({ product }) => {
         styledGridItem: {
             position: 'relative',
             paddingRight: '1rem',
+            marginBottom: '2rem',
             '&::before, &::after': {
                 content: '""',
                 position: 'absolute',

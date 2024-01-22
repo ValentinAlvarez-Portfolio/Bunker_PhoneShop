@@ -25,8 +25,6 @@ export const LoginContext = createContext({
 
       logout: () => { },
 
-      checkUserSession: () => { },
-
       update: () => { },
 
       setMessage: () => { },
@@ -65,7 +63,7 @@ export const LoginProvider = ({ children }) => {
 
                   const { userPayload, message } = await getUserByEmail(user)
 
-                  if (!userPayload.id) throw new Error(message);
+                  if (!userPayload?.id) throw new Error(message);
 
                   const response = await loginUser(user)
 
@@ -102,7 +100,7 @@ export const LoginProvider = ({ children }) => {
 
                         setError(null)
 
-                  }, 2000);
+                  }, 3000);
 
             };
 
@@ -145,7 +143,7 @@ export const LoginProvider = ({ children }) => {
 
                         setError(null)
 
-                  }, 2000);
+                  }, 3000);
 
             };
 
@@ -189,7 +187,7 @@ export const LoginProvider = ({ children }) => {
 
                         setError(null)
 
-                  }, 2000);
+                  }, 3000);
 
 
             };
@@ -230,54 +228,10 @@ export const LoginProvider = ({ children }) => {
 
                         setError(null)
 
-                  }, 2000);
+                  }, 3000);
 
             }
 
-
-      }
-
-      const checkUserSession = () => {
-
-            setIsLoading(true)
-
-            setIsError(false)
-
-            try {
-
-                  const { userPayload, message, logged } = checkSession()
-
-                  if (!logged) throw new Error(message)
-
-                  setMessage(message)
-
-                  setCurrentUser(userPayload)
-
-                  setAuthenticated(true)
-
-            } catch (error) {
-
-                  const toString = error.toString()
-
-                  const errorMessage = toString.slice(7, toString.length)
-
-                  setIsError(true)
-
-                  setError(errorMessage)
-
-            } finally {
-
-                  setIsLoading(false)
-
-                  setTimeout(() => {
-
-                        setMessage(null)
-
-                        setError(null)
-
-                  }, 2000);
-
-            }
 
       }
 
@@ -295,7 +249,6 @@ export const LoginProvider = ({ children }) => {
                   login,
                   register,
                   logout,
-                  checkUserSession,
                   update,
                   setMessage,
                   setError,

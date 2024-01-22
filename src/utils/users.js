@@ -9,6 +9,7 @@ import {
 import {
       collection,
       addDoc,
+      getDoc,
       getDocs,
       doc,
       updateDoc,
@@ -90,50 +91,49 @@ export const getUserById = async (uid) => {
 
       try {
 
-            const userCollectionRef = collection(db, 'users');
+            const userDocRef = doc(db, 'users', uid);
 
-            const q = query(userCollectionRef, where("id", "==", uid));
+            const docSnap = await getDoc(userDocRef);
 
-            const querySnapshot = await getDocs(q);
+            if (docSnap.exists()) {
 
-            if (querySnapshot.empty) {
+                  const userPayload = {
+
+                        ...docSnap.data(),
+                        id: docSnap.id
+
+                  };
+
+                  const message = `Usuario ${userPayload.email} encontrado correctamente`;
 
                   return {
 
-                        userPayload: null,
-                        message: 'Usuario no encontrado'
+                        userPayload: {
+                              ...userPayload,
+                        },
+                        message
 
+                  };
+
+            } else {
+
+                  return {
+
+                        message: 'Usuario no encontrado'
                   };
 
             }
 
-            let userPayload = {};
-
-            querySnapshot.forEach((doc) => {
-
-                  userPayload = {
-                        ...doc.data(),
-                        id: doc.id
-                  }
-
-            });
-
-            const message = userPayload.id ? `Usuario ${userPayload.email} encontrado correctamente` : 'Usuario no encontrado';
-
-            return {
-                  userPayload,
-                  message
-            }
-
       } catch (error) {
 
-            console.log(error);
+            console.error(error);
 
             throw new Error(error);
 
-      };
+      }
 
-}
+};
+
 export const registerUser = async (user) => {
 
       const auth = getAuth();

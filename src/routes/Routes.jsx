@@ -8,12 +8,12 @@ import ItemListPage from "../components/Pages/ItemListPage.jsx";
 import ItemDetailPage from "../components/Pages/ItemDetailPage.jsx";
 import CheckoutPage from "../components/Pages/CheckoutPage.jsx";
 import { LoginContext } from "../context/LoginContext/LoginContext.jsx";
+import { CartContext } from "../context/CartContext/CartContext.jsx";
 import { checkSession } from "../utils/users.js";
 
 export default function AppRoutes() {
 
-      const { currentUser, isAuthenticated, setAuthenticated } = useContext(LoginContext);
-
+      const { currentUser, isAuthenticated, setAuthenticated, message, } = useContext(LoginContext);
       useEffect(() => {
 
             const { logged } = checkSession();
@@ -21,37 +21,6 @@ export default function AppRoutes() {
             setAuthenticated(logged);
 
       }, [currentUser && currentUser.id]);
-
-      /* const { currentUser, isAuthenticated, setAuthenticated, checkUserSession } = useContext(LoginContext);
-
-      useEffect(() => {
-
-            checkUserSession()
-
-      }, [currentUser && currentUser.id]);
-
-      useEffect(() => {
-
-            checkSession().then(({ logged }) => {
-
-                  if (logged) {
-
-                        console.log("logged" + logged)
-
-                        setAuthenticated(true)
-
-                  } else {
-
-                        setAuthenticated(false)
-
-                  }
-
-            })
-
-
-
-      }, []); */
-
 
       return (
             <Routes>

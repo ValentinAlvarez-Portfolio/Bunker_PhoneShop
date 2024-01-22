@@ -35,8 +35,9 @@ const CartSections = (props) => {
       const goToCart = () => setActiveSection('cart');
       const goToShipping = () => setActiveSection('shipping');
       const goToPayment = () => setActiveSection('payment');
+      const goToResume = () => setActiveSection('resume');
 
-      const sections = [{ name: 'Carrito', action: goToCart }, { name: 'Datos de envío', action: goToShipping }, { name: 'Datos de pago', action: goToPayment }];
+      const sections = [{ name: 'Carrito', action: goToCart }, { name: 'Datos de envío', action: goToShipping }, { name: 'Datos de pago', action: goToPayment }, { name: 'Resumen', action: goToResume }];
 
       const theme = useTheme();
 

@@ -3,12 +3,15 @@ import { Divider, Typography, Card, CardContent, Grid, Button, useTheme } from "
 import { Link } from "react-router-dom"
 import { LoginContext } from "../../../../context/LoginContext/LoginContext.jsx"
 import { CartContext } from "../../../../context/CartContext/CartContext.jsx"
+import { CheckoutContext } from "../../../../context/CheckoutContext/CheckoutContext.jsx"
 
-const CartResume = (props) => {
+const CartDetails = (props) => {
 
     const { currentUser } = useContext(LoginContext);
 
     const { cart } = useContext(CartContext);
+
+    const { setActiveSection } = useContext(CheckoutContext)
 
     const [shippingCost, setShippingCost] = useState(0);
 
@@ -47,7 +50,7 @@ const CartResume = (props) => {
 
     useEffect(() => {
 
-        if (currentUser.address.country === "Uruguay") {
+        if (currentUser?.address.country === "Uruguay") {
 
             setShippingCost(0)
 
@@ -57,7 +60,7 @@ const CartResume = (props) => {
 
         }
 
-    }, [currentUser.address.country])
+    }, [currentUser?.address.country])
 
     useEffect(() => {
 
@@ -72,7 +75,6 @@ const CartResume = (props) => {
             <Grid container spacing={1}
                 sx={{
                     mt: 4,
-                    mb: 17,
                 }}
             >
 
@@ -221,6 +223,7 @@ const CartResume = (props) => {
                         mb: 4,
                     }}
                 >
+
                     <Button
                         variant="contained"
                         sx={{
@@ -231,6 +234,7 @@ const CartResume = (props) => {
                                 background: theme.palette.primary.main,
                             },
                         }}
+
                     >
                         <Link to="/" style={{ textDecoration: "none" }}>
                             <Typography
@@ -244,6 +248,7 @@ const CartResume = (props) => {
                             </Typography>
                         </Link>
                     </Button>
+
                 </Grid>
 
                 <Grid item
@@ -260,6 +265,7 @@ const CartResume = (props) => {
                                 background: theme.palette.primary.dark,
                             },
                         }}
+                        onClick={() => props.where === "cart" ? setActiveSection('shipping') : props.handleConfirmPurchase()}
                     >
                         <Typography
                             fontFamily={'bold'}
@@ -268,7 +274,7 @@ const CartResume = (props) => {
                                 fontSize: "0.95rem",
                             }}
                         >
-                            Comprar
+                            {props.where === "cart" ? "Continuar" : "Confirmar compra"}
                         </Typography>
                     </Button>
 
@@ -281,4 +287,4 @@ const CartResume = (props) => {
 
 }
 
-export default CartResume;
+export default CartDetails;

@@ -4,7 +4,7 @@ import Payment from '../Checkout/Payment/Payment.jsx'
 import Cart from '../Checkout/Cart/Cart.jsx'
 import Shipping from '../Checkout/Shipping/Shipping.jsx'
 import { CheckoutContext } from '../../context/CheckoutContext/CheckoutContext.jsx'
-import CartSections from '../Checkout/Cart/CartNavbar/CartSections/CartSections.jsx'
+import Resume from '../Checkout/Resume/Resume.jsx'
 
 const CheckoutPage = () => {
 
@@ -17,6 +17,7 @@ const CheckoutPage = () => {
                   {activeSection === 'cart' && <Cart />}
                   {activeSection === 'shipping' && <Shipping />}
                   {activeSection === 'payment' && <Payment />}
+                  {activeSection === 'resume' && <Resume />}
             </>
       );
 };

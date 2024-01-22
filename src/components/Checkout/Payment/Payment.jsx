@@ -197,7 +197,7 @@ const Payment = (props) => {
                                           <Typography
                                                 fontFamily={'semiBold'}
                                           >
-                                                Pagar
+                                                Enviar
                                           </Typography>
                                     </Button>
                                     {message && <Typography

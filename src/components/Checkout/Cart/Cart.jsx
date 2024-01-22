@@ -6,7 +6,7 @@ import { CartContext } from "../../../context/CartContext/CartContext.jsx";
 import Checkout from "../Checkout.jsx";
 import FlipperImg from "../../FlipperImg/FlipperImg.jsx";
 import CartItemInfo from "./CartItemInfo/CartItemInfo.jsx";
-import CartResume from "./CartResume/CartResume.jsx";
+import CartDetails from './CartDetails/CartDetails.jsx';
 
 const centerFlexRow = {
       display: "flex",
@@ -232,7 +232,7 @@ const Cart = () => {
 
                   }
 
-                  <CartResume cartTotal={cart.cartTotal} />
+                  <CartDetails where={'cart'} cartTotal={cart.cartTotal} />
 
 
             </Checkout>

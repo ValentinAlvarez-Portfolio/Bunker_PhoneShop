@@ -1,6 +1,11 @@
 import React, { useState, useContext } from 'react'
 import { LoginContext } from '../../../context/LoginContext/LoginContext.jsx'
+import { Link } from 'react-router-dom'
+import { Container, Box, Typography, TextField, Button, useTheme } from '@mui/material'
+
 const Register = () => {
+
+      const theme = useTheme()
 
       const {
             register,
@@ -17,15 +22,12 @@ const Register = () => {
             last_name: "",
             email: "",
             age: 0,
+            phone: "",
             password: "",
             confirm_password: "",
-            phone: "",
             address: {
-                  city: "",
-                  location: "",
-                  street: "",
-                  number: ""
-            },
+                  country: ""
+            }
       })
 
       const handleForm = (e) => {
@@ -66,7 +68,7 @@ const Register = () => {
 
             const values = { [e.target.name]: value }
 
-            const addressValues = ["city", "location", "street", "number", "country"]
+            const addressValues = ["country"]
 
             if (addressValues.includes(e.target.name)) {
 
@@ -82,84 +84,259 @@ const Register = () => {
 
       }
 
+      const styledLogin = {
 
+            styledBox: {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: '2px',
+                  padding: '3rem',
+                  boxShadow: "4px 7px 8px 2px #8b9198",
+                  marginBottom: '5rem',
+                  marginTop: '5rem',
+                  paddingTop: '5rem',
+                  paddingBottom: '5rem',
+            },
+
+            styledTitle: {
+                  color: theme.palette.primary.main,
+                  fontSize: '2rem',
+                  mb: '1.5rem',
+                  mt: '1.5rem',
+            },
+
+            styledBoxButton: {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  width: '80%',
+                  ml: '10%',
+            },
+
+            styledButton: {
+                  backgroundColor: theme.palette.primary.main,
+                  color: '#fff',
+                  fontSize: '0.9rem',
+                  mt: '1rem',
+                  height: '2.5rem',
+                  borderRadius: '0px'
+            }
+
+      }
 
       return (
-            <>
-                  <h2>Register</h2>
 
-                  <form onSubmit={handleForm}>
+            <Container
+                  maxWidth="md"
+                  style={{
+                        padding: 0,
+                  }}
+            >
 
-                        <label htmlFor="first_name">Nombre</label>
-                        <input type="text" placeholder="Nombre" name='first_name'
-                              onChange={handleChange}
-                        />
+                  <Box
+                        sx={styledLogin.styledBox}
+                  >
+                        <Typography
+                              fontFamily='bold'
+                              sx={styledLogin.styledTitle}
+                        >
+                              Registro de usuario
+                        </Typography>
+                        <form onSubmit={handleForm} style={{
+                              width: '40%',
+                              fontFamily: theme.typography.fontFamily.regular,
+                              fontSize: '0.85rem'
+                        }}>
+                              <TextField
+                                    required
+                                    id='first_name'
+                                    name='first_name'
+                                    label='Nombre'
+                                    variant='outlined'
+                                    onChange={handleChange}
+                                    value={user.first_name}
+                                    fullWidth
+                                    margin="normal"
+                              />
 
-                        <label htmlFor="last_name">Apellido</label>
-                        <input type="text" placeholder="Apellido" name='last_name'
-                              onChange={handleChange}
-                        />
+                              <TextField
+                                    required
+                                    id='last_name'
+                                    name='last_name'
+                                    label='Apellido'
+                                    variant='outlined'
+                                    onChange={handleChange}
+                                    value={user.last_name}
+                                    fullWidth
+                                    margin="normal"
+                              />
 
-                        <label htmlFor="email">Email</label>
-                        <input type="email" placeholder="Email" name='email'
-                              onChange={handleChange}
-                        />
+                              <TextField
+                                    required
+                                    id='email'
+                                    name='email'
+                                    label='Email'
+                                    variant='outlined'
+                                    onChange={handleChange}
+                                    value={user.email}
+                                    fullWidth
+                                    margin="normal"
+                              />
 
-                        <label htmlFor="age">Edad</label>
-                        <input type="number" placeholder="Edad" name='age'
-                              onChange={handleChange}
-                        />
+                              <TextField
+                                    required
+                                    id='age'
+                                    name='age'
+                                    label='Edad'
+                                    variant='outlined'
+                                    onChange={handleChange}
+                                    value={user.age}
+                                    fullWidth
+                                    margin="normal"
+                              />
 
-                        <label htmlFor="password">Contraseña</label>
-                        <input type="password" placeholder="Contraseña" name='password'
-                              onChange={handleChange}
-                        />
+                              <TextField
+                                    required
+                                    id='phone'
+                                    name='phone'
+                                    label='Teléfono'
+                                    variant='outlined'
+                                    onChange={handleChange}
+                                    value={user.phone}
+                                    fullWidth
+                                    margin="normal"
+                              />
 
-                        <label htmlFor="confirm_password">Confirmar Contraseña</label>
-                        <input type="password" placeholder="Confirmar Contraseña" name='confirm_password'
-                              onChange={handleChange}
-                        />
+                              <TextField
+                                    required
+                                    id='country'
+                                    name='country'
+                                    label='País'
+                                    variant='outlined'
+                                    onChange={handleChange}
+                                    value={user.address.country}
+                                    fullWidth
+                                    margin="normal"
+                              />
 
-                        <label htmlFor="phone">Teléfono</label>
-                        <input type="tel" placeholder="Teléfono" name='phone'
-                              onChange={handleChange}
-                        />
+                              <TextField
+                                    required
+                                    id='password'
+                                    name='password'
+                                    label='Contraseña'
+                                    type='password'
+                                    variant='outlined'
+                                    onChange={handleChange}
+                                    value={user.password}
+                                    fullWidth
+                                    margin="normal"
+                              />
 
-                        <label htmlFor="country">País</label>
-                        <input type="text" placeholder="País" name='country'
-                              onChange={handleChange}
-                        />
+                              <TextField
+                                    required
+                                    id='confirm_password'
+                                    name='confirm_password'
+                                    label='Confirmar contraseña'
+                                    type='password'
+                                    variant='outlined'
+                                    onChange={handleChange}
+                                    value={user.confirm_password}
+                                    fullWidth
+                                    margin="normal"
+                              />
 
-                        <label htmlFor="city">Ciudad</label>
-                        <input type="text" placeholder="Ciudad" name='city'
-                              onChange={handleChange}
-                        />
+                              <Box
+                                    sx={styledLogin.styledBoxButton}
+                              >
+                                    <Button
+                                          type="submit"
+                                          variant="contained"
+                                          sx={styledLogin.styledButton}
+                                    >
+                                          <Typography
+                                                fontFamily={'semiBold'}
+                                          >
+                                                Enviar
+                                          </Typography>
+                                    </Button>
 
-                        <label htmlFor="location">Localidad</label>
-                        <input type="text" placeholder="Localidad" name='location'
-                              onChange={handleChange}
-                        />
+                              </Box>
 
-                        <label htmlFor="street">Calle</label>
-                        <input type="text" placeholder="Calle" name='street'
-                              onChange={handleChange}
-                        />
+                              <Box
+                                    sx={{
+                                          ...styledLogin.styledBoxButton,
+                                          width: '100%',
+                                    }}
+                              >
 
-                        <label htmlFor="number">Número</label>
-                        <input type="text" placeholder="Número" name='number'
-                              onChange={handleChange}
-                        />
+                                    {message &&
+                                          <Typography
+                                                fontFamily={theme.typography.fontFamily.regular}
+                                                sx={{
+                                                      marginTop: '1rem',
+                                                      marginLeft: '1rem'
+                                                }}
+                                          >{message}
+                                          </Typography>}
 
-                        <button type="submit">Registrarse</button>
+                              </Box>
 
-                  </form>
+                              <Box
+                                    sx={{
+                                          ...styledLogin.styledBoxButton,
+                                          width: '100%',
+                                          marginLeft: '0%',
+                                    }}
+                              >
+                                    <Typography
+                                          fontFamily={'semiBold'}
+                                          sx={{
+                                                color: theme.palette.info.light,
+                                                marginLeft: "24%",
+                                                marginTop: "1.5rem",
+                                          }}
+                                    >
+                                          Si ya tienes una cuenta,
+                                    </Typography>
+
+                                    <Link to="/login">
+                                          <Button
+                                                variant="contained"
+                                                sx={{
+                                                      width: '100%',
+                                                      backgroundColor: theme.palette.primary.dark,
+                                                      borderRadius: '0',
+                                                      marginTop: '0.5rem',
+                                                      ':hover': {
+                                                            backgroundColor: theme.palette.primary.light,
+                                                      }
+                                                }}
+                                          >
+                                                <Typography
+                                                      fontFamily={'semiBold'}
+                                                      sx={{
+                                                            color: 'white'
+                                                      }}
+                                                >
+                                                      Inicia sesión
+                                                </Typography>
+                                          </Button>
+                                    </Link>
+
+                              </Box>
+
+                        </form>
+                  </Box>
 
                   {isLoading && <p>Loading...</p>}
 
-                  {message && <p><strong>{message}</strong></p>}
+                  {isError && <p>{error}</p>}
 
-                  {isError && <p><strong>{error}</strong></p>}
-            </>
+
+
+            </Container>
       )
 }
 
