@@ -10,8 +10,6 @@ const CheckoutPage = () => {
 
       const { activeSection } = useContext(CheckoutContext)
 
-      console.log(activeSection)
-
       return (
             <>
                   {activeSection === 'cart' && <Cart />}

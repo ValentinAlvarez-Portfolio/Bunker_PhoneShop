@@ -36,7 +36,6 @@ export const getProducts = async (sId) => {
 
             });
 
-            console.log(productsData);
             return productsData;
 
       } else {
@@ -45,24 +44,6 @@ export const getProducts = async (sId) => {
 
 };
 
-/* export const getProducts = async (sId) => {
-
-      const productsResponse = await fetchProducts(sId);
-
-      if (productsResponse.status === 'success') {
-
-            const productsData = productsResponse.payload.products;
-
-            return productsData;
-
-      } else {
-
-            throw new Error(productsResponse.message);
-
-      };
-
-
-}; */
 
 export const getProductById = async (p_id) => {
 

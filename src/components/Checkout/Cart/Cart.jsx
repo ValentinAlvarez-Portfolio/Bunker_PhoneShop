@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Button, Divider, Grid, Typography, useTheme } from "@mui/material"
+import { Button, Divider, Grid, Typography, useTheme, Box } from "@mui/material"
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CircleIcon from '@mui/icons-material/Circle';
 import { CartContext } from "../../../context/CartContext/CartContext.jsx";
@@ -7,6 +7,7 @@ import Checkout from "../Checkout.jsx";
 import FlipperImg from "../../FlipperImg/FlipperImg.jsx";
 import CartItemInfo from "./CartItemInfo/CartItemInfo.jsx";
 import CartDetails from './CartDetails/CartDetails.jsx';
+import ItemCount from '../../ItemCount/ItemCount.jsx';
 
 const centerFlexRow = {
       display: "flex",
@@ -93,7 +94,7 @@ const Cart = () => {
                   </Typography>
 
 
-                  <CartItemInfo />
+                  <CartItemInfo where={'cart'} />
 
                   {
                         products.map((prod, index) => (
@@ -127,12 +128,35 @@ const Cart = () => {
                                                       className="fullSize"
                                                       xs={3}
                                                       md={3}
-                                                      sx={centerFlexColumn}
+                                                      sx={{
+                                                            ...centerFlexColumn,
+                                                            position: 'relative',
+                                                      }}
                                                 >
 
                                                       <FlipperImg product={prod} size={150} />
 
+                                                      {prod.oldPrice !== 0 &&
+                                                            <Typography
+                                                                  sx={{
+                                                                        textAlign: 'center',
+                                                                        fontSize: theme.typography.fontSize.lg,
+                                                                        marginBottom: '1rem',
+                                                                        fontFamily: theme.typography.fontFamily.semiBold,
+                                                                        color: theme.palette.info.light,
+                                                                        textDecoration: 'none',
+                                                                        position: 'absolute',
+                                                                        top: '10%',
+                                                                        right: '7%',
+                                                                  }}
+                                                            >
+                                                                  - {prod.discount} %
+                                                            </Typography>
+                                                      }
+
                                                 </Grid>
+
+
 
                                                 <Grid
                                                       item
@@ -152,13 +176,40 @@ const Cart = () => {
                                                             orientation="horizontal"
                                                             sx={styledCart.styledDivider}
                                                       />
-
-                                                      <Typography
-                                                            fontFamily={'semiBold'}
-                                                            sx={styledCart.styledProductPrice}
+                                                      <Box
+                                                            sx={{
+                                                                  display: 'flex',
+                                                                  flexDirection: 'row',
+                                                                  justifyContent: 'center',
+                                                                  alignItems: 'center',
+                                                            }}
                                                       >
-                                                            USD {prod.price}
-                                                      </Typography>
+                                                            {prod.oldPrice !== 0 &&
+                                                                  <>
+                                                                        <Typography
+                                                                              sx={{
+                                                                                    color: theme.palette.secondary.light,
+                                                                                    textAlign: 'center',
+                                                                                    fontSize: theme.typography.fontSize.lg,
+                                                                                    fontFamily: theme.typography.fontFamily.semiBold,
+                                                                                    textDecoration: 'line-through',
+                                                                                    marginRight: '1rem',
+                                                                              }}
+                                                                        >
+                                                                              USD {prod.oldPrice}
+                                                                        </Typography>
+                                                                  </>
+
+                                                            }
+
+                                                            <Typography
+                                                                  fontFamily={'semiBold'}
+                                                                  sx={styledCart.styledProductPrice}
+                                                            >
+                                                                  USD {prod.price}
+                                                            </Typography>
+
+                                                      </Box>
 
                                                 </Grid>
 
@@ -201,7 +252,7 @@ const Cart = () => {
                                                       sx={centerFlexColumn}
                                                 >
 
-                                                      <h2>test</h2>
+                                                      <ItemCount where="cart" prod={prod} />
 
                                                 </Grid>
 

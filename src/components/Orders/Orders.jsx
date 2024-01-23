@@ -12,7 +12,7 @@ const Orders = () => {
       return (
             <>
 
-                  <h2>Ordenes completadas</h2>
+                  <h2>Órdenes completadas</h2>
 
                   {ordersArray !== null ? ordersArray.map((order) => {
 
@@ -42,7 +42,7 @@ const Orders = () => {
 
                                     )}
 
-                                    <h3>Envío</h3>
+                                    <h3>Envio</h3>
 
                                     <ul>
                                           <li>{order.buyer.shippingAddress.country}</li>
@@ -66,7 +66,7 @@ const Orders = () => {
                         )
                   }
 
-                  ) : <h3>No hay ordenes completadas</h3>}
+                  ) : <h3>No hay órdenes completadas</h3>}
 
 
 

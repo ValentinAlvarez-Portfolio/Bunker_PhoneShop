@@ -1,7 +1,7 @@
 import { Grid, Typography, Divider, useTheme } from "@mui/material";
 
 
-const CartItemInfo = () => {
+const CartItemInfo = (props) => {
 
     const theme = useTheme();
 
@@ -117,6 +117,7 @@ const CartItemInfo = () => {
                                 </Typography>
 
                             </Grid>
+
 
                             <Grid
                                 item

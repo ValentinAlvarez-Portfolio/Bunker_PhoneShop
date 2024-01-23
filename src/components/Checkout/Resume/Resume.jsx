@@ -9,7 +9,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CircleIcon from '@mui/icons-material/Circle';
 import FlipperImg from "../../FlipperImg/FlipperImg.jsx";
 import Checkout from '../Checkout.jsx'
-import { purple } from '@mui/material/colors'
+import ItemCount from '../../ItemCount/ItemCount.jsx'
 
 const centerFlexRow = {
       display: "flex",
@@ -163,7 +163,7 @@ const Resume = () => {
                                     Carrito
                               </Typography>
 
-                              <CartItemInfo />
+                              <CartItemInfo where="resume" />
 
                               {
                                     products.map((prod, index) => (
@@ -278,7 +278,7 @@ const Resume = () => {
                                                                   sx={centerFlexColumn}
                                                             >
 
-                                                                  <h2>test</h2>
+                                                                  <ItemCount prod={prod} where="resume" />
 
                                                             </Grid>
 

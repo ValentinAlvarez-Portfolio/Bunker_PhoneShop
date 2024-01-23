@@ -2,40 +2,9 @@ import React, { createContext, useState, useContext } from 'react'
 import { getByUserId, create, update, calculateTotals } from '../../utils/carts.js'
 import { LoginContext } from '../LoginContext/LoginContext.jsx';
 import { checkSession } from '../../utils/users.js';
+import { doc, updateDoc } from "firebase/firestore";
 
-export const CartContext = createContext({
-
-      cart: null,
-
-      setCart: () => { },
-
-      totalPrice: 0,
-
-      isError: false,
-
-      isLoading: false,
-
-      error: null,
-
-      message: null,
-
-      isEmpty: true,
-
-      setMessage: () => { },
-
-      setError: () => { },
-
-      getCartByUserId: () => { },
-
-      createCart: () => { },
-
-      addItem: () => { },
-
-      deleteItem: () => { },
-
-      clearCart: () => { },
-
-})
+export const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
 
@@ -171,6 +140,10 @@ export const CartProvider = ({ children }) => {
                         color: item.color,
                         price: item.price,
                         thumbnails: item.thumbnails,
+                        discount: item.discount,
+                        oldPrice: item.oldPrice,
+                        id: item.id,
+                        stock: item.stock, //A eliminar de acá
                         quantity: quantity
                   }
 
@@ -242,6 +215,70 @@ export const CartProvider = ({ children }) => {
             }
 
       }
+
+      const increaseQuantity = async (productId) => {
+            if (currentUser) {
+
+                  const productIndex = cart.cartItems.findIndex((item) => item.id === productId);
+
+
+                  if (productIndex >= 0) {
+
+                        const updatedCartItems = [...cart.cartItems];
+                        updatedCartItems[productIndex].quantity += 1;
+
+                        const updatedCart = {
+                              ...cart,
+                              cartItems: updatedCartItems
+                        };
+
+
+                        const { cartPayload, message } = await update(updatedCart);
+
+                        const { totalPrice, totalQuantity } = calculateTotals(cartPayload.cartItems);
+
+                        setCart({
+                              ...cartPayload,
+                              cartTotal: totalPrice,
+                              cartQuantity: totalQuantity
+                        });
+
+                        setMessage(message);
+                  }
+            }
+      };
+
+      const decreaseQuantity = async (productId) => {
+            if (currentUser) {
+
+                  const productIndex = cart.cartItems.findIndex((item) => item.id === productId);
+
+
+                  if (productIndex >= 0) {
+
+                        const updatedCartItems = [...cart.cartItems];
+                        updatedCartItems[productIndex].quantity -= 1;
+
+                        const updatedCart = {
+                              ...cart,
+                              cartItems: updatedCartItems
+                        };
+
+
+                        const { cartPayload, message } = await update(updatedCart);
+
+                        const { totalPrice, totalQuantity } = calculateTotals(cartPayload.cartItems);
+
+                        setCart({
+                              ...cartPayload,
+                              cartTotal: totalPrice,
+                              cartQuantity: totalQuantity
+                        });
+
+                        setMessage(message);
+                  }
+            }
+      };
 
       const deleteItem = async (item) => {
 
@@ -373,6 +410,8 @@ export const CartProvider = ({ children }) => {
                   getCartByUserId,
                   createCart,
                   addItem,
+                  increaseQuantity,
+                  decreaseQuantity,
                   deleteItem,
                   clearCart,
             }}>
