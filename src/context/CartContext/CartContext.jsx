@@ -226,6 +226,7 @@ export const CartProvider = ({ children }) => {
 
                         const updatedCartItems = [...cart.cartItems];
                         updatedCartItems[productIndex].quantity += 1;
+                        updatedCartItems[productIndex].stock -= 1;
 
                         const updatedCart = {
                               ...cart,
@@ -258,6 +259,7 @@ export const CartProvider = ({ children }) => {
 
                         const updatedCartItems = [...cart.cartItems];
                         updatedCartItems[productIndex].quantity -= 1;
+                        updatedCartItems[productIndex].stock += 1;
 
                         const updatedCart = {
                               ...cart,
