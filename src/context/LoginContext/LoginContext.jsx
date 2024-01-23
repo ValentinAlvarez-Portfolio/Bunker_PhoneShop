@@ -7,6 +7,8 @@ export const LoginContext = createContext({
 
       currentUser: null,
 
+      setCurrentUser: () => { },
+
       isError: false,
 
       isLoading: false,
@@ -240,6 +242,7 @@ export const LoginProvider = ({ children }) => {
 
             <LoginContext.Provider value={{
                   currentUser,
+                  setCurrentUser,
                   isError,
                   isLoading,
                   error,

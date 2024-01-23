@@ -9,7 +9,6 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CircleIcon from '@mui/icons-material/Circle';
 import FlipperImg from "../../FlipperImg/FlipperImg.jsx";
 import Checkout from '../Checkout.jsx'
-import Shipping from '../Shipping/Shipping.jsx'
 
 const centerFlexRow = {
       display: "flex",
@@ -38,7 +37,7 @@ const Resume = () => {
 
       const { setActiveSection } = useContext(CheckoutContext)
 
-      const { cart } = useContext(CartContext)
+      const { cart, deleteItem, totalPrice } = useContext(CartContext)
 
       const products = cart.cartItems
 
@@ -59,6 +58,13 @@ const Resume = () => {
             alert("Compra confirmada")
 
       }
+
+      const handleDeleteItem = (item) => {
+
+            deleteItem(item)
+
+      }
+
 
       const styledCart = {
             styledTitle: {
@@ -304,63 +310,66 @@ const Resume = () => {
 
                                     </Grid>
 
-                                    <Grid
-                                          item
-                                          xs={5}
-                                          md={5}
-                                          sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                justifyContent: "center",
-                                                alignItems: "start",
-                                          }}
-                                    >
-                                          <Typography
-                                                fontFamily={'bold'}
-                                                sx={styledCart.styledProductTitle}
+                                    {currentUser.address && currentUser.address.country && currentUser.address.city && currentUser.address.location && currentUser.address.street && currentUser.address.number &&
+
+                                          <Grid
+                                                item
+                                                xs={5}
+                                                md={5}
+                                                sx={{
+                                                      display: "flex",
+                                                      flexDirection: "column",
+                                                      justifyContent: "center",
+                                                      alignItems: "start",
+                                                }}
                                           >
+                                                <Typography
+                                                      fontFamily={'bold'}
+                                                      sx={styledCart.styledProductTitle}
+                                                >
 
-                                                {currentUser.address.country}
+                                                      {currentUser.address.country}
 
-                                          </Typography>
+                                                </Typography>
 
-                                          <Typography
-                                                fontFamily={'bold'}
-                                                sx={styledCart.styledProductTitle}
-                                          >
+                                                <Typography
+                                                      fontFamily={'bold'}
+                                                      sx={styledCart.styledProductTitle}
+                                                >
 
-                                                {currentUser.address.city}
+                                                      {currentUser.address.city}
 
-                                          </Typography>
+                                                </Typography>
 
-                                          <Typography
-                                                fontFamily={'bold'}
-                                                sx={styledCart.styledProductTitle}
-                                          >
+                                                <Typography
+                                                      fontFamily={'bold'}
+                                                      sx={styledCart.styledProductTitle}
+                                                >
 
-                                                {currentUser.address.location}
+                                                      {currentUser.address.location}
 
-                                          </Typography>
+                                                </Typography>
 
-                                          <Typography
-                                                fontFamily={'bold'}
-                                                sx={styledCart.styledProductTitle}
-                                          >
+                                                <Typography
+                                                      fontFamily={'bold'}
+                                                      sx={styledCart.styledProductTitle}
+                                                >
 
-                                                {currentUser.address.street}
+                                                      {currentUser.address.street}
 
-                                          </Typography>
+                                                </Typography>
 
-                                          <Typography
-                                                fontFamily={'bold'}
-                                                sx={styledCart.styledProductTitle}
-                                          >
+                                                <Typography
+                                                      fontFamily={'bold'}
+                                                      sx={styledCart.styledProductTitle}
+                                                >
 
-                                                {currentUser.address.number}
+                                                      {currentUser.address.number}
 
-                                          </Typography>
+                                                </Typography>
 
-                                    </Grid>
+                                          </Grid>
+                                    }
 
                                     <Grid
                                           item
@@ -386,53 +395,55 @@ const Resume = () => {
 
                                     </Grid>
 
-                                    <Grid
-                                          item
-                                          xs={5}
-                                          md={5}
-                                          sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                justifyContent: "center",
-                                                alignItems: "start",
-                                          }}
-                                    >
-                                          <Typography
-                                                fontFamily={'bold'}
-                                                sx={styledCart.styledProductTitle}
+                                    {currentUser.paymentData && currentUser.paymentData.cardNumber && currentUser.paymentData.cardHolderName && currentUser.paymentData.cardExpirationDate && currentUser.paymentData.cardSecurityCode &&
+                                          <Grid
+                                                item
+                                                xs={5}
+                                                md={5}
+                                                sx={{
+                                                      display: "flex",
+                                                      flexDirection: "column",
+                                                      justifyContent: "center",
+                                                      alignItems: "start",
+                                                }}
                                           >
+                                                <Typography
+                                                      fontFamily={'bold'}
+                                                      sx={styledCart.styledProductTitle}
+                                                >
 
-                                                {currentUser.paymentData.cardNumber}
+                                                      {currentUser.paymentData.cardNumber}
 
-                                          </Typography>
+                                                </Typography>
 
-                                          <Typography
-                                                fontFamily={'bold'}
-                                                sx={styledCart.styledProductTitle}
-                                          >
+                                                <Typography
+                                                      fontFamily={'bold'}
+                                                      sx={styledCart.styledProductTitle}
+                                                >
 
-                                                {currentUser.paymentData.cardHolderName}
+                                                      {currentUser.paymentData.cardHolderName}
 
-                                          </Typography>
+                                                </Typography>
 
-                                          <Typography
-                                                fontFamily={'bold'}
-                                                sx={styledCart.styledProductTitle}
-                                          >
+                                                <Typography
+                                                      fontFamily={'bold'}
+                                                      sx={styledCart.styledProductTitle}
+                                                >
 
-                                                {currentUser.paymentData.cardExpirationDate}
+                                                      {currentUser.paymentData.cardExpirationDate}
 
-                                          </Typography>
+                                                </Typography>
 
 
-                                    </Grid>
+                                          </Grid>
+                                    }
                               </Grid>
 
 
                         </Grid>
 
                         <Grid item xs={12} md={12} >
-                              <CartDetails cartTotal={cart.cartTotal} where={'resume'} handleConfirmPurchase={handleConfirmPurchase} />
+                              <CartDetails cartTotal={totalPrice} where={'resume'} handleConfirmPurchase={handleConfirmPurchase} />
 
                         </Grid>
                   </Grid>

@@ -1,12 +1,15 @@
 import React, { createContext, useState, useContext } from 'react'
 import { getByUserId, create, update, calculateTotals } from '../../utils/carts.js'
 import { LoginContext } from '../LoginContext/LoginContext.jsx';
+import { checkSession } from '../../utils/users.js';
 
 export const CartContext = createContext({
 
       cart: null,
 
       setCart: () => { },
+
+      totalPrice: 0,
 
       isError: false,
 
@@ -36,9 +39,11 @@ export const CartContext = createContext({
 
 export const CartProvider = ({ children }) => {
 
-      const { currentUser, isAuthenticated, needCart } = useContext(LoginContext)
+      const { currentUser, setCurrentUser, setAuthenticated, isAuthenticated, needCart } = useContext(LoginContext)
 
       const [cart, setCart] = useState(null)
+
+      const [totalPrice, setTotalPrice] = useState(0)
 
       const [isEmpty, setIsEmpty] = useState(true)
 
@@ -54,7 +59,7 @@ export const CartProvider = ({ children }) => {
 
       const notItemMessage = "Debe seleccionar un producto"
 
-      const getCartByUserId = async () => {
+      const getCartByUserId = async (uid) => {
 
             setIsLoading(true)
 
@@ -62,9 +67,11 @@ export const CartProvider = ({ children }) => {
 
             try {
 
-                  if (!currentUser.id) throw new Error(notUserMessage)
+                  if (!currentUser.id && !uid) throw new Error("No se recibió el id del usuario")
 
-                  const { existingCart, message } = await getByUserId(currentUser.id)
+                  const idUsuario = uid ? uid : currentUser.id
+
+                  const { existingCart, message } = await getByUserId(idUsuario)
 
                   if (!existingCart) throw new Error(message)
 
@@ -266,6 +273,8 @@ export const CartProvider = ({ children }) => {
 
                   const { totalQuantity, totalPrice } = calculateTotals(updatedCart.cartItems)
 
+                  setTotalPrice(totalPrice)
+
                   const newCart = {
 
                         ...updatedCart,
@@ -347,11 +356,13 @@ export const CartProvider = ({ children }) => {
 
       }
 
+
       return (
 
             <CartContext.Provider value={{
                   cart,
                   setCart,
+                  totalPrice,
                   isEmpty,
                   isError,
                   isLoading,
@@ -363,7 +374,7 @@ export const CartProvider = ({ children }) => {
                   createCart,
                   addItem,
                   deleteItem,
-                  clearCart
+                  clearCart,
             }}>
 
                   {children}

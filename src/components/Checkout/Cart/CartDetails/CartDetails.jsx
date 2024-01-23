@@ -9,7 +9,7 @@ const CartDetails = (props) => {
 
     const { currentUser } = useContext(LoginContext);
 
-    const { cart } = useContext(CartContext);
+    const { cart, setCart } = useContext(CartContext);
 
     const { setActiveSection } = useContext(CheckoutContext)
 
@@ -177,7 +177,7 @@ const CartDetails = (props) => {
                                     fontSize: "1.2rem",
                                 }}
                             >
-                                USD {total.toFixed(2)}
+                                USD {cart?.cartTotal ? (cart.cartTotal + shippingCost).toFixed(2) : 0}
                             </Typography>
 
 

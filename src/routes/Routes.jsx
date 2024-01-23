@@ -8,19 +8,23 @@ import ItemListPage from "../components/Pages/ItemListPage.jsx";
 import ItemDetailPage from "../components/Pages/ItemDetailPage.jsx";
 import CheckoutPage from "../components/Pages/CheckoutPage.jsx";
 import { LoginContext } from "../context/LoginContext/LoginContext.jsx";
-import { CartContext } from "../context/CartContext/CartContext.jsx";
 import { checkSession } from "../utils/users.js";
 
 export default function AppRoutes() {
 
-      const { currentUser, isAuthenticated, setAuthenticated, message, } = useContext(LoginContext);
+      const { currentUser, setCurrentUser, isAuthenticated, setAuthenticated, message, } = useContext(LoginContext);
+
+
       useEffect(() => {
 
-            const { logged } = checkSession();
+            const { logged, userPayload } = checkSession();
+
+            setCurrentUser(userPayload);
 
             setAuthenticated(logged);
 
       }, [currentUser && currentUser.id]);
+
 
       return (
             <Routes>

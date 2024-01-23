@@ -79,7 +79,6 @@ const Cart = () => {
       }
 
 
-
       return (
 
             <Checkout>

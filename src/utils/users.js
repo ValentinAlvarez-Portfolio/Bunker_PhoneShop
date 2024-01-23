@@ -299,15 +299,11 @@ export const logoutUser = async () => {
 
 export const checkSession = () => {
 
-      const auth = getAuth();
-
-      const user = auth.currentUser;
-
       const userLocal = localStorage.getItem('user');
 
-      const message = user && userLocal ? `Usuario ${user.email} logueado correctamente` : 'Usuario no logueado';
+      const message = userLocal ? `Usuario logueado correctamente` : 'Usuario no logueado';
 
-      const logged = user && userLocal ? true : false;
+      const logged = userLocal ? true : false;
 
       return {
             userPayload: userLocal ? JSON.parse(userLocal) : null,
