@@ -110,7 +110,7 @@ const CartWidget = () => {
                   }}
                         onClick={handleMouseEnter}
                   >
-                        {totalQuantity} item(s) - ${totalPrice}
+                        {totalQuantity} item(s) - ${totalPrice.toFixed(2)}
 
                   </Typography>
 

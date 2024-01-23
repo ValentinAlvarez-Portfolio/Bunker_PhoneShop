@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import { Grid, Button, Typography, useTheme } from "@mui/material";
+import { Grid, Button, Typography, useTheme, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import FlipperImg from "../../FlipperImg/FlipperImg";
 import { CartContext } from "../../../context/CartContext/CartContext.jsx";
@@ -49,12 +49,13 @@ const Item = ({ product }) => {
         },
 
         styledOldPrice: {
-            color: theme.palette.secondary.main,
+            color: theme.palette.secondary.light,
             textAlign: 'center',
             fontSize: theme.typography.fontSize.lg,
             marginBottom: '1rem',
             fontFamily: theme.typography.fontFamily.semiBold,
             textDecoration: 'line-through',
+            marginRight: '1rem',
         },
 
         styledButton: {
@@ -106,25 +107,72 @@ const Item = ({ product }) => {
 
                 <FlipperImg product={product} size={300} />
 
+                {product.oldPrice !== 0 &&
+                    <Typography
+                        sx={{
+                            ...styledItem.styledPrice,
+                            color: theme.palette.info.light,
+                            textDecoration: 'none',
+                            position: 'absolute',
+                            top: '10%',
+                            right: '7%',
+                        }}
+                    >
+                        - {product.discount} %
+                    </Typography>
+                }
+
                 <Typography sx={styledItem.styledTitle}>
                     {product.title}
                 </Typography>
 
+
+
             </Link>
 
-            {product.oldPrice !== 0 &&
-                <Typography
-                    sx={styledItem.styledOldPrice}
-                >
-                    USD {product.oldPrice}
-                </Typography>}
-
-
-            <Typography
-                sx={styledItem.styledPrice}
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
             >
-                USD {product.price.toFixed(2)}
-            </Typography>
+
+
+
+            </Box>
+
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+
+                {product.oldPrice !== 0 &&
+                    <>
+                        <Typography
+                            sx={styledItem.styledOldPrice}
+                        >
+                            USD {product.oldPrice}
+                        </Typography>
+                    </>
+
+                }
+
+
+                <Typography
+                    sx={styledItem.styledPrice}
+                >
+                    USD {product.price.toFixed(2)}
+                </Typography>
+
+            </Box>
+
+
 
 
             <Button

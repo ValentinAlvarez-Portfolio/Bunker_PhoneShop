@@ -8,6 +8,8 @@ import theme from './components/Theme/Theme.jsx';
 import { CartProvider } from './context/CartContext/CartContext.jsx';
 import { LoginProvider } from './context/LoginContext/LoginContext.jsx';
 import { CheckoutProvider } from './context/CheckoutContext/CheckoutContext.jsx';
+import ScrollTop from './components/ScrollTop/ScrollTop.jsx';
+
 
 function App() {
 
@@ -21,6 +23,7 @@ function App() {
                 <Header />
                 <AppRoutes />
                 <Footer />
+                <ScrollTop />
               </HashRouter>
             </CheckoutProvider>
           </CartProvider>

@@ -11,32 +11,30 @@ export const getProducts = async (sId) => {
 
             let productsData = productsResponse.payload.products;
 
-            if (sId === 'offers') {
+            productsData = productsData.map(product => {
 
-                  productsData = productsData.map(product => {
+                  if (product.discount) {
 
-                        const discount = Math.random() * 0.1 + 0.1;
+                        const discount = product.discount / 100;
                         const newPrice = product.price * (1 - discount);
                         const oldPrice = Number(product.price);
                         product.price = Number(newPrice.toFixed(2));
                         return {
                               ...product,
                               oldPrice: oldPrice.toFixed(2),
-                              discount: (discount * 100).toFixed(2) + '%'
                         };
 
-                  });
+                  } else {
 
-            } else {
+                        return {
+                              ...product,
+                              oldPrice: 0,
+                              discount: '0%'
+                        };
 
+                  }
 
-                  productsData = productsData.map(product => ({
-                        ...product,
-                        oldPrice: 0,
-                        discount: '0%'
-                  }));
-
-            }
+            });
 
             console.log(productsData);
             return productsData;
