@@ -60,31 +60,41 @@ const CartOverlay = (props) => {
                               opacity: props.isVisible ? 1 : 0,
                               transition: "all 0.5s ease-in-out",
                               position: "absolute",
-                              top: "80%",
-                              right: "-15%",
+                              top: "124%",
+                              right: "-4%",
+                              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+                              padding: "2rem 4rem",
+                              backgroundColor: "white",
+                              color: "black",
                         }}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}>
-                        <div className="cart" style={{
-                              backgroundColor: "red",
-                        }}>
-                              {items.length > 0 ? items.map((item, index) => {
-                                    return (
-                                          <div className="cart-item" key={index}>
-                                                <div className="content">
-                                                      <h4>{item.title}</h4>
-                                                      <h5>{item.quantity} x ${item.price}</h5>
-                                                </div>
+                        {items.length > 0 ? items.map((item, index) => {
+                              return (
+                                    <div className="cart-item" key={index}>
+                                          <div className="content" style={{
+                                                display: "flex",
+                                                justifyContent: "space-between",
+                                                alignItems: "center",
+                                          }}>
+                                                <img src={item.thumbnails[0]} alt={item.title} style={{
+                                                      width: "100px",
+                                                      marginRight: "1rem",
+                                                }} />
+                                                <h4 style={{
+                                                      marginRight: "2rem",
+                                                }}>{item.title}</h4>
+                                                <h5>{item.quantity} x ${item.price}</h5>
                                           </div>
-                                    )
-                              }) : <h4>Cart is empty</h4>}
+                                    </div>
+                              )
+                        }) : <h4>Cart is empty</h4>}
 
-                              {items.length > 0 && <button className="clear-cart" onClick={handleClearCart}>Clear Cart</button>}
+                        {items.length > 0 && <button className="clear-cart" onClick={handleClearCart}>Clear Cart</button>}
 
-                              <Link to={'/checkout'}>
-                                    <button>Checkout</button>
-                              </Link>
-                        </div>
+                        <Link to={'/checkout'}>
+                              <button>Checkout</button>
+                        </Link>
                   </div>
 
             </>

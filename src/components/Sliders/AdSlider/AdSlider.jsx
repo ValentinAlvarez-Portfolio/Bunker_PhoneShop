@@ -7,6 +7,7 @@ const slideStyles = {
   height: "100%",
   backgroundPosition: "center",
   backgroundSize: "cover",
+  transition: "all 0.5s ease-in-out",
 };
 
 const rigthArrowStyles = {

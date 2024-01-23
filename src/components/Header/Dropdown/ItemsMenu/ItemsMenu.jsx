@@ -58,6 +58,11 @@ const ItemsMenu = (props) => {
                                           <MenuItem key="profile" sx={styledMenuItems} > Profile </MenuItem>
                                     </Link>
                                     <Link sx={{
+                                          textDecoration: "none",
+                                    }} to={'/orders'}>
+                                          <MenuItem key="orders" sx={styledMenuItems} > Orders </MenuItem>
+                                    </Link>
+                                    <Link sx={{
                                           textDecoration: "none"
                                     }} onClick={logout} ><MenuItem key="logout" sx={styledMenuItems} > Logout </MenuItem></Link>
                               </Box>

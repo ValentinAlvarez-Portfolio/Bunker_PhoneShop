@@ -48,6 +48,15 @@ const Item = ({ product }) => {
             fontFamily: theme.typography.fontFamily.semiBold,
         },
 
+        styledOldPrice: {
+            color: theme.palette.secondary.main,
+            textAlign: 'center',
+            fontSize: theme.typography.fontSize.lg,
+            marginBottom: '1rem',
+            fontFamily: theme.typography.fontFamily.semiBold,
+            textDecoration: 'line-through',
+        },
+
         styledButton: {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.primary.contrastText,
@@ -102,6 +111,14 @@ const Item = ({ product }) => {
                 </Typography>
 
             </Link>
+
+            {product.oldPrice !== 0 &&
+                <Typography
+                    sx={styledItem.styledOldPrice}
+                >
+                    USD {product.oldPrice}
+                </Typography>}
+
 
             <Typography
                 sx={styledItem.styledPrice}

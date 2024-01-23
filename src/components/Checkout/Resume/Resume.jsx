@@ -9,6 +9,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CircleIcon from '@mui/icons-material/Circle';
 import FlipperImg from "../../FlipperImg/FlipperImg.jsx";
 import Checkout from '../Checkout.jsx'
+import { purple } from '@mui/material/colors'
 
 const centerFlexRow = {
       display: "flex",
@@ -35,7 +36,7 @@ const Resume = () => {
 
       const { currentUser } = useContext(LoginContext)
 
-      const { setActiveSection } = useContext(CheckoutContext)
+      const { setActiveSection, order, createOrder, cardInstallments } = useContext(CheckoutContext)
 
       const { cart, deleteItem, totalPrice } = useContext(CartContext)
 
@@ -53,10 +54,43 @@ const Resume = () => {
 
       }, [currentUser])
 
-      const handleConfirmPurchase = () => {
+      const handlePlaceOrder = () => {
 
-            alert("Compra confirmada")
+            const shippingCost = currentUser.address.country === "Uruguay" ? 0 : 15
 
+            const totalOrderPrice = (cart.cartTotal + shippingCost)
+
+            const installmentsPrice = (totalOrderPrice / cardInstallments).toFixed(2)
+
+            const newOrder = {
+                  buyer: {
+                        contactData: {
+                              first_name: currentUser.first_name,
+                              last_name: currentUser.last_name,
+                              email: currentUser.email,
+                              phone: currentUser.phone,
+                        },
+                        shippingAddress: {
+                              ...currentUser.address,
+                        },
+                        paymentMethod: "Credit Card",
+
+                  },
+                  installments: cardInstallments,
+                  installmentsPrice: Number(installmentsPrice),
+                  items: cart.cartItems,
+                  date: new Date(),
+                  total: totalOrderPrice,
+                  uid: currentUser.id,
+            }
+
+            createOrder(newOrder).then(() => {
+
+                  order && console.log(order)
+
+                  order && alert("Su orden ha sido creada")
+
+            })
       }
 
       const handleDeleteItem = (item) => {
@@ -106,10 +140,17 @@ const Resume = () => {
       return (
             <Checkout>
 
+                  <Typography
+                        fontFamily='bold'
+                        sx={styledCart.styledTitle}
+                  >
+                        Resumen de compra
+                  </Typography>
                   <Grid
                         container spacing={1}
                         columnSpacing={5}
                   >
+
 
                         <Grid item xs={12} md={7}
 
@@ -443,7 +484,7 @@ const Resume = () => {
                         </Grid>
 
                         <Grid item xs={12} md={12} >
-                              <CartDetails cartTotal={totalPrice} where={'resume'} handleConfirmPurchase={handleConfirmPurchase} />
+                              <CartDetails cartTotal={cart.cartTotal} where={'resume'} handleConfirmPurchase={handlePlaceOrder} />
 
                         </Grid>
                   </Grid>

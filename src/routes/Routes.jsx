@@ -4,6 +4,7 @@ import HomePage from "../components/Pages/HomePage.jsx";
 import LoginPage from "../components/Pages/LoginPage.jsx";
 import RegisterPage from "../components/Pages/RegisterPage.jsx";
 import ProfilePage from "../components/Pages/ProfilePage.jsx";
+import OrdersPage from "../components/Pages/OrdersPage.jsx";
 import ItemListPage from "../components/Pages/ItemListPage.jsx";
 import ItemDetailPage from "../components/Pages/ItemDetailPage.jsx";
 import CheckoutPage from "../components/Pages/CheckoutPage.jsx";
@@ -43,6 +44,10 @@ export default function AppRoutes() {
 
                   <Route path="/profile" element={
                         isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />
+                  } />
+
+                  <Route path="/orders" element={
+                        isAuthenticated ? <OrdersPage /> : <Navigate to="/login" />
                   } />
 
                   <Route path="/:sId" element={

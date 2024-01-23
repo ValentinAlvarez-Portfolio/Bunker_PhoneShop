@@ -14,7 +14,7 @@ const Payment = (props) => {
 
       const { currentUser, update, message, error } = useContext(LoginContext)
 
-      const { setActiveSection } = useContext(CheckoutContext)
+      const { setActiveSection, cardInstallments, setCardInstallments } = useContext(CheckoutContext)
 
       useEffect(() => {
 
@@ -36,8 +36,6 @@ const Payment = (props) => {
             cardSecurityCode: '',
 
       });
-
-      const [cardInstallments, setCardInstallments] = useState(1);
 
       const handleSubmit = (e) => {
 
@@ -154,7 +152,7 @@ const Payment = (props) => {
                               <TextField
                                     value={cardData.cardExpirationDate}
                                     name="cardExpirationDate"
-                                    label="Fecha de expedición"
+                                    label="Fecha de vencimiento"
                                     fullWidth
                                     required
                                     margin="normal"
