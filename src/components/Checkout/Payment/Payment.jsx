@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 
-import { Container, Box, Typography, TextField, Button, MenuItem, useTheme } from '@mui/material'
+import { Container, Grid, Box, Typography, TextField, Button, MenuItem, useTheme } from '@mui/material'
 
 import Checkout from '../Checkout.jsx';
 
@@ -190,10 +190,22 @@ const Payment = (props) => {
                                     <Button
                                           type="submit"
                                           variant="contained"
-                                          sx={styledPayment.styledButton}
+                                          sx={{
+                                                width: "100%",
+                                                borderRadius: "0",
+                                                marginTop: "2rem",
+                                                background: theme.palette.primary.dark,
+                                                "&:hover": {
+                                                      background: theme.palette.primary.main,
+                                                },
+                                          }}
                                     >
                                           <Typography
                                                 fontFamily={'semiBold'}
+                                                sx={{
+                                                      color: "white",
+                                                      fontSize: "0.95rem",
+                                                }}
                                           >
                                                 Enviar
                                           </Typography>
@@ -208,8 +220,35 @@ const Payment = (props) => {
                                           {message}
                                     </Typography>
                                     }
+
+
                               </Box>
+
+                              <Button
+                                    variant="contained"
+                                    sx={{
+                                          width: "100%",
+                                          borderRadius: "0",
+                                          marginTop: "3rem",
+                                          background: theme.palette.primary.main,
+                                          "&:hover": {
+                                                background: theme.palette.primary.dark,
+                                          },
+                                    }}
+                                    onClick={() => setActiveSection('resume')}
+                              >
+                                    <Typography
+                                          fontFamily={'semiBold'}
+                                          sx={{
+                                                color: "white",
+                                                fontSize: "0.95rem",
+                                          }}
+                                    >
+                                          Continuar
+                                    </Typography>
+                              </Button>
                         </form>
+
                   </Box>
             </Checkout>
       )

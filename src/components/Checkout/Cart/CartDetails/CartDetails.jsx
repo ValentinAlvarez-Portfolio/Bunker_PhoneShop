@@ -229,9 +229,9 @@ const CartDetails = (props) => {
                         sx={{
                             width: "25%",
                             borderRadius: "0",
-                            background: theme.palette.primary.dark,
+                            background: theme.palette.primary.main,
                             "&:hover": {
-                                background: theme.palette.primary.main,
+                                background: theme.palette.primary.dark,
                             },
                         }}
 
@@ -260,9 +260,9 @@ const CartDetails = (props) => {
                         sx={{
                             width: "100%",
                             borderRadius: "0",
-                            background: theme.palette.primary.main,
+                            background: theme.palette.primary.dark,
                             "&:hover": {
-                                background: theme.palette.primary.dark,
+                                background: theme.palette.primary.main,
                             },
                         }}
                         onClick={() => props.where === "cart" ? setActiveSection('shipping') : props.handleConfirmPurchase()}

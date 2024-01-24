@@ -17,7 +17,8 @@ const Shipping = () => {
             number: '',
       })
 
-      const currentUserAddress = currentUser && currentUser.address
+      let currentUserAddress = currentUser.address
+
 
       const handleSubmit = (e) => {
 
@@ -158,10 +159,22 @@ const Shipping = () => {
                                     <Button
                                           type="submit"
                                           variant="contained"
-                                          sx={styledAddress.styledButton}
+                                          sx={{
+                                                width: "100%",
+                                                borderRadius: "0",
+                                                marginTop: "2rem",
+                                                background: theme.palette.primary.dark,
+                                                "&:hover": {
+                                                      background: theme.palette.primary.main,
+                                                },
+                                          }}
                                     >
                                           <Typography
                                                 fontFamily={'semiBold'}
+                                                sx={{
+                                                      color: "white",
+                                                      fontSize: "0.95rem",
+                                                }}
                                           >
                                                 Enviar
                                           </Typography>
@@ -176,7 +189,33 @@ const Shipping = () => {
                                           {message}
                                     </Typography>
                                     }
+
+
                               </Box>
+
+                              <Button
+                                    variant="contained"
+                                    sx={{
+                                          width: "100%",
+                                          borderRadius: "0",
+                                          marginTop: "3rem",
+                                          background: theme.palette.primary.main,
+                                          "&:hover": {
+                                                background: theme.palette.primary.dark,
+                                          },
+                                    }}
+                                    onClick={() => setActiveSection('resume')}
+                              >
+                                    <Typography
+                                          fontFamily={'semiBold'}
+                                          sx={{
+                                                color: "white",
+                                                fontSize: "0.95rem",
+                                          }}
+                                    >
+                                          Continuar
+                                    </Typography>
+                              </Button>
 
                         </form>
                   </Box>

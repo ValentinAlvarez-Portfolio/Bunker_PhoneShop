@@ -36,9 +36,9 @@ const Resume = () => {
 
       const { currentUser } = useContext(LoginContext)
 
-      const { setActiveSection, order, createOrder, cardInstallments } = useContext(CheckoutContext)
+      const { setActiveSection, order, setOrder, createOrder, cardInstallments } = useContext(CheckoutContext)
 
-      const { cart, deleteItem, totalPrice } = useContext(CartContext)
+      const { cart, clearCart, deleteItem, totalPrice } = useContext(CartContext)
 
       const products = cart.cartItems
 
@@ -53,6 +53,24 @@ const Resume = () => {
             }
 
       }, [currentUser])
+
+      useEffect(() => {
+
+            if (order !== null) {
+                  createOrder(order).then((id, message) => {
+
+                        id && console.log(id)
+
+                        id && alert('Su orden ha sido creada con éxito')
+
+                        setOrder(null);
+
+                        clearCart();
+
+                  })
+            }
+
+      }, [order])
 
       const handlePlaceOrder = () => {
 
@@ -84,13 +102,8 @@ const Resume = () => {
                   uid: currentUser.id,
             }
 
-            createOrder(newOrder).then(() => {
+            setOrder(newOrder)
 
-                  order && console.log(order)
-
-                  order && alert("Su orden ha sido creada")
-
-            })
       }
 
       const handleDeleteItem = (item) => {

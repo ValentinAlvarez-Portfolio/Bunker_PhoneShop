@@ -3,39 +3,7 @@ import { registerUser, loginUser, getUserByEmail, getUserById, updateUser, logou
 import { getByUserId } from '../../utils/carts.js'
 
 
-export const LoginContext = createContext({
-
-      currentUser: null,
-
-      setCurrentUser: () => { },
-
-      isError: false,
-
-      isLoading: false,
-
-      error: null,
-
-      message: null,
-
-      isAuthenticated: false,
-
-      needCart: false,
-
-      login: () => { },
-
-      register: () => { },
-
-      logout: () => { },
-
-      update: () => { },
-
-      setMessage: () => { },
-
-      setError: () => { },
-
-      setAuthenticated: () => { },
-
-})
+export const LoginContext = createContext()
 
 export const LoginProvider = ({ children }) => {
 
@@ -164,6 +132,8 @@ export const LoginProvider = ({ children }) => {
                   const { newUser, message } = await updateUser(userPayload, userData)
 
                   setMessage(message)
+
+                  localStorage.setItem("user", JSON.stringify(newUser))
 
                   setCurrentUser({
                         ...newUser,

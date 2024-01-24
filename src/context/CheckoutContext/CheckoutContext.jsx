@@ -58,6 +58,8 @@ export const CheckoutProvider = ({ children }) => {
 
                   setOrder(orderPayload)
 
+                  return { id, message }
+
             } catch (error) {
 
                   console.log(error)
@@ -70,6 +72,7 @@ export const CheckoutProvider = ({ children }) => {
 
             <CheckoutContext.Provider value={{
                   order,
+                  setOrder,
                   orders,
                   activeSection,
                   cardInstallments,

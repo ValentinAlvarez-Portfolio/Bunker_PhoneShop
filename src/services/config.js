@@ -5,12 +5,13 @@ import {
 import {
       getFirestore
 } from 'firebase/firestore';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-      apiKey: "AIzaSyBZfpV4i1o-0nO_ylw3ur9CGCixxonlnj8",
+      apiKey: 'AIzaSyBZfpV4i1o-0nO_ylw3ur9CGCixxonlnj8',
       authDomain: "pfreact-bunkerphoneshop-2fa59.firebaseapp.com",
       projectId: "pfreact-bunkerphoneshop-2fa59",
       storageBucket: "pfreact-bunkerphoneshop-2fa59.appspot.com",
