@@ -3,9 +3,9 @@ import {
       fetchProductById
 } from "../hooks/useFetch/useFetch.js";
 
-export const getProducts = async (sId) => {
+export const getProducts = async (sId, limit, page) => {
 
-      const productsResponse = await fetchProducts(sId);
+      const productsResponse = await fetchProducts(sId, limit ? limit : 100, page ? page : 1);
 
       if (productsResponse.status === 'success') {
 
@@ -39,6 +39,9 @@ export const getProducts = async (sId) => {
             return productsData;
 
       } else {
+
+            console.log(productsResponse.message)
+
             throw new Error(productsResponse.message);
       }
 

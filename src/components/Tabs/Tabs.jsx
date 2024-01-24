@@ -35,6 +35,7 @@ const BasicTabs = (props) => {
 
     const { products, showTabs } = props;
 
+
     const theme = useTheme();
 
     const styledTabs = {

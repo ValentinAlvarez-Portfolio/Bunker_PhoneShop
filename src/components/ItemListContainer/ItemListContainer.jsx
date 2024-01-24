@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import ItemList from './ItemList/ItemList.jsx';
 import { CartContext } from '../../context/CartContext/CartContext.jsx';
 import { LoginContext } from '../../context/LoginContext/LoginContext.jsx';
+import { ProductsContext } from '../../context/ProductsContext/ProductsContext.jsx';
+import { fetchProducts } from '../../hooks/useFetch/useFetch.js';
 
 const ItemListContainer = () => {
 
@@ -13,7 +15,8 @@ const ItemListContainer = () => {
 
       const { currentUser } = useContext(LoginContext);
 
-      const [products, setProducts] = useState([]);
+      const { setProducts, limit, page, setTotalPages, } = useContext(ProductsContext);
+
       const [loading, setLoading] = useState(false);
       const [error, setError] = useState(null);
 
@@ -28,7 +31,10 @@ const ItemListContainer = () => {
 
                   try {
 
-                        const products = await getProducts(sId);
+                        const response = await fetchProducts(sId, limit, page);
+                        const products = await getProducts(sId, limit !== 0 ? limit : 100, page !== 0 ? page : 1);
+
+                        setTotalPages(response.totalPages);
 
                         setProducts(products);
 
@@ -46,14 +52,16 @@ const ItemListContainer = () => {
 
             loadData();
 
-      }, [sId]);
+      }, [sId, page, limit]);
+
 
       if (loading) return <h2>Loading...</h2>;
       if (error) return <h2>{error}</h2>;
 
       return (
             <>
-                  <ItemList products={products} showTabs={showTabs} />
+                  <ItemList showTabs={showTabs} />
+
             </>
       );
 };
