@@ -51,32 +51,25 @@ const ItemsMenu = (props) => {
             return (
                   <Dropdown type={"menuUsers"}>
                         {isAuthenticated ? (
-                              <Box>
-                                    <Link sx={{
-                                          textDecoration: "none",
-                                    }} to={'/profile'}>
-                                          <MenuItem key="profile" sx={styledMenuItems} > Profile </MenuItem>
+                              <Box sx={{
+                                    textDecoration: "none"
+                              }}>
+                                    <Link style={{ textDecoration: "none" }}
+                                          to={'/profile'}>
+                                          <MenuItem key="profile" sx={styledMenuItems} > Perfil </MenuItem>
                                     </Link>
-                                    <Link sx={{
-                                          textDecoration: "none",
-                                    }} to={'/orders'}>
-                                          <MenuItem key="orders" sx={styledMenuItems} > Orders </MenuItem>
+                                    <Link style={{ textDecoration: "none" }} to={'/orders'}>
+                                          <MenuItem key="orders" sx={styledMenuItems} > Mis Órdenes </MenuItem>
                                     </Link>
-                                    <Link sx={{
-                                          textDecoration: "none"
-                                    }} onClick={logout} ><MenuItem key="logout" sx={styledMenuItems} > Logout </MenuItem></Link>
+                                    <Link style={{ textDecoration: "none" }} onClick={logout} ><MenuItem key="logout" sx={styledMenuItems} > Cerrar sesión </MenuItem></Link>
                               </Box>
                         ) : (
                               <Box>
-                                    <Link sx={{
-                                          textDecoration: "none",
-                                    }} to={'/login'} >
-                                          <MenuItem key="login" sx={styledMenuItems} > Login </MenuItem>
+                                    <Link style={{ textDecoration: "none" }} to={'/login'} >
+                                          <MenuItem key="login" sx={styledMenuItems} > Iniciar Sesión </MenuItem>
                                     </Link>
-                                    <Link sx={{
-                                          textDecoration: "none",
-                                    }} to={'/register'}>
-                                          <MenuItem key="login" sx={styledMenuItems} > Register </MenuItem>
+                                    <Link style={{ textDecoration: "none" }} to={'/register'}>
+                                          <MenuItem key="login" sx={styledMenuItems} > Registrarse </MenuItem>
                                     </Link>
                               </Box>
                         )}

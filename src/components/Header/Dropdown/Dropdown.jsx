@@ -59,7 +59,6 @@ const Dropdown = (props) => {
                               borderRadius: '0px',
                               marginTop: '0.5rem',
                         },
-                        padding: '0rem',
                   },
                   navbar: {
                         '& .MuiPaper-root': {
@@ -68,7 +67,6 @@ const Dropdown = (props) => {
                               borderRadius: '0px',
                               marginTop: '0.5rem',
                         },
-                        padding: '0rem',
                   }
             },
 
@@ -107,7 +105,7 @@ const Dropdown = (props) => {
                         <>
                               <IconButton
                                     id="filter-button"
-                                    aria-controls={open ? 'users-menu' : undefined}
+                                    aria-controls={open ? 'filter-menu' : undefined}
                                     aria-haspopup="true"
                                     aria-expanded={open ? 'true' : undefined}
                                     onClick={handleOpen}
@@ -144,7 +142,13 @@ const Dropdown = (props) => {
                         MenuListProps={{
                               'aria-labelledby': props.type === 'menuFilters' ? 'menu-button' : 'navbar-button',
                         }}
-                        sx={styledDropdowns.styledMenu[props.type]}
+                        sx={{
+                              ...styledDropdowns.styledMenu[props.type],
+                              '& .MuiList-padding': {
+                                    paddingTop: 0,
+                                    paddingBottom: 0,
+                              },
+                        }}
                   >
 
                         {props.children}

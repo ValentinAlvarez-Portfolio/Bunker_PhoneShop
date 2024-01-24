@@ -14,6 +14,7 @@ const Footer = () => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
+            mt: '10rem'
         },
 
         styledTypography: {
@@ -26,7 +27,6 @@ const Footer = () => {
             color: theme.palette.secondary.light,
             textAlign: 'center',
             fontSize: theme.typography.fontSize.xs,
-            marginBottom: '1rem',
             fontFamily: theme.typography.fontFamily.regular,
         },
 
@@ -34,8 +34,10 @@ const Footer = () => {
 
     return (
         <>
-            <SVG viewBox="0 0 1440 320" />
-            <Container maxWidth="xxl">
+
+            <Container maxWidth="xxl" sx={{
+                mb: "-8rem"
+            }}>
                 <Box sx={styledFooter.styledBox}>
                     <Link to="/">
                         <img src={logo[0].imgPath} alt={logo[0].label} />
@@ -89,7 +91,7 @@ const Footer = () => {
                 </Box>
             </Container>
 
-
+            <SVG viewBox="0 0 1440 320" />
         </>
     )
 }
