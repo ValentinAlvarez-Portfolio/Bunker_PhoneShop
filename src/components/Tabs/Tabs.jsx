@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Grid, Tabs, Tab, Box, useTheme } from '@mui/material';
 import Item from '../ItemListContainer/Item/Item.jsx';
 
-function TabPanel(props) {
+export function TabPanel(props) {
 
     const { children, value, index, ...other } = props;
 

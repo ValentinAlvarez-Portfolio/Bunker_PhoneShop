@@ -228,10 +228,13 @@ const Login = () => {
 
                                     {loginMessage &&
                                           <Typography
-                                                fontFamily={theme.typography.fontFamily.regular}
+                                                fontFamily={
+                                                      theme.typography.fontFamily.regular
+                                                }
                                                 sx={{
                                                       marginTop: '1rem',
-                                                      marginLeft: '1rem'
+                                                      marginLeft: '1rem',
+                                                      color: theme.palette.primary.dark,
                                                 }}
                                           >{loginMessage}
                                           </Typography>}
@@ -288,8 +291,6 @@ const Login = () => {
                   {loginIsLoading && <p>Loading...</p>}
 
                   {loginIsError && <p>{loginError}</p>}
-
-
 
             </Container>
       )

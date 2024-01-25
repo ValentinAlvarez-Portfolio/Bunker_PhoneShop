@@ -70,7 +70,7 @@ export const LoginProvider = ({ children }) => {
 
                         setError(null)
 
-                  }, 3000);
+                  }, 5000);
 
             };
 

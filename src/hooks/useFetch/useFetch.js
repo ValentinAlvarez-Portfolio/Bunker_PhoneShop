@@ -2,8 +2,6 @@ export const fetchProducts = async (sId, limit, page) => {
 
       try {
 
-
-
             const response = sId ? await fetch(`https://pfalvarez-production.up.railway.app/api/products?limit=${limit !== 0 ? limit : 100}&page=${page !== 0 ? page : 1}&query=${sId}`, {
                   method: 'GET',
                   credentials: 'include'

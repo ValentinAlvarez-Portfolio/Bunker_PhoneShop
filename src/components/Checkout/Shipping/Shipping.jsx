@@ -204,7 +204,7 @@ const Shipping = () => {
                                                 background: theme.palette.primary.dark,
                                           },
                                     }}
-                                    onClick={() => setActiveSection('resume')}
+                                    onClick={() => setActiveSection('payment')}
                               >
                                     <Typography
                                           fontFamily={'semiBold'}
