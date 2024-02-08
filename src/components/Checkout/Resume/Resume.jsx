@@ -61,7 +61,7 @@ const Resume = () => {
 
                         id && console.log(id.id)
 
-                        id && alert(`Su orden: ${id} ha sido creada con éxito`)
+                        id && alert(`Su orden: ${id.id} ha sido creada con éxito`)
 
                         setOrder(null);
 
