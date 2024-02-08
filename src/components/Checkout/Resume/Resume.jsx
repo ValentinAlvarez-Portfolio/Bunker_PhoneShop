@@ -59,7 +59,7 @@ const Resume = () => {
             if (order !== null) {
                   createOrder(order).then((id, message) => {
 
-                        id && console.log(id)
+                        id && console.log(id.id)
 
                         id && alert(`Su orden: ${id} ha sido creada con éxito`)
 
