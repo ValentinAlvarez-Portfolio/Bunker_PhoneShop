@@ -2,12 +2,15 @@ import React, { useState, useContext, useEffect } from 'react'
 import { LoginContext } from '../../../context/LoginContext/LoginContext.jsx'
 import Checkout from '../Checkout.jsx';
 import { Box, Typography, TextField, Button, useTheme } from '@mui/material';
+import { CheckoutContext } from '../../../context/CheckoutContext/CheckoutContext.jsx';
 
 const Shipping = () => {
 
       const theme = useTheme();
 
       const { currentUser, update, message } = useContext(LoginContext)
+
+      const { setActiveSection } = useContext(CheckoutContext)
 
       const [address, setAddress] = useState({
             country: '',
