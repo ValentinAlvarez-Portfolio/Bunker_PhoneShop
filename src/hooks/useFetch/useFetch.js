@@ -2,10 +2,10 @@ export const fetchProducts = async (sId, limit, page) => {
 
       try {
 
-            const response = sId ? await fetch(`https://pfalvarez-production.up.railway.app/api/products?limit=${limit !== 0 ? limit : 100}&page=${page !== 0 ? page : 1}&query=${sId}`, {
+            const response = sId ? await fetch(`${import.meta.env.VITE_API_URL_PRODUCTS}?limit=${limit !== 0 ? limit : 100}&page=${page !== 0 ? page : 1}&query=${sId}`, {
                   method: 'GET',
                   credentials: 'include'
-            }) : await fetch('https://pfalvarez-production.up.railway.app/api/products', {
+            }) : await fetch(`${import.meta.env.VITE_API_URL_PRODUCTS}`, {
                   method: 'GET',
                   credentials: 'include'
             });
@@ -38,7 +38,7 @@ export const fetchProductById = async (p_id) => {
 
       try {
 
-            const response = await fetch(`https://pfalvarez-production.up.railway.app/api/products/${p_id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL_PRODUCTS}/${p_id}`, {
                   method: 'GET',
                   credentials: 'include'
             });
